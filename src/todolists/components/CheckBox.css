@@ -1,0 +1,42 @@
+.checked,
+.unchecked {
+  position: relative;
+  top: 5px;
+  margin:3px;
+}
+
+.unchecked {
+  color: burlywood;
+ 
+}
+
+.bookmark{
+  position: relative;
+  margin:1.55px;
+  top:4px;
+
+}
+
+.custom-checkbox input[type="checkbox"],
+.custom-checkbox .checked {
+  display: none;
+}
+
+.custom-checkbox input[type="checkbox"]:checked ~ .checked {
+  display: inline-block;
+  color: #7fcd91;
+
+
+}
+
+.custom-checkbox input[type="checkbox"]:checked ~ .unchecked {
+  display: none;
+}
+.custom-checkbox input[type="checkbox"]:checked ~ .tick {
+  display: inline-block;
+  color: #d13100;
+  margin: 1.45px
+  /* position: relative;
+  top: 4px;
+} */
+}
