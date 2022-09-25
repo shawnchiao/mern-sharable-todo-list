@@ -1,9 +1,10 @@
 .todoItem {
   display: flex;
   align-items: baseline ;
-
-
+  min-height: 2em;
 }
+
+
 
 .spaceItemContent {
   flex-grow: 4 !important;

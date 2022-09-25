@@ -1,5 +1,5 @@
 import * as React from "react";
-
+import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
@@ -27,7 +27,7 @@ const TypesOfTodoList = [
 ];
 
 export default function SimpleDialog(props) {
-
+  const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
   const [selectedValue, setSelectedValue] = React.useState(TypesOfTodoList[1]);
   const [checked, setChecked] = React.useState(true);
@@ -82,7 +82,7 @@ export default function SimpleDialog(props) {
           endIcon={<SendIcon />}
           style={{ width: "17em", margin: "auto" }}
           size="medium"
-          
+          onClick={()=>navigate("/todoLists/t1")}
         >
           Confirm
         </Button>
