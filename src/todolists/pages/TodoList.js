@@ -2,7 +2,9 @@ import React, { useState, useReducer } from "react";
 
 import ToDoItem from "../components/ToDoItem";
 import IconButton from "../components/IconButton";
+import Button from '@mui/material/Button';
 import { GrPowerReset } from "react-icons/gr";
+import Stack from "@mui/material/Stack";
 import "./TodoList.css";
 
 function TodoList() {
@@ -45,7 +47,8 @@ function TodoList() {
 
 
   return (
-    <div className=" todoList container">
+    <div className="container">
+      <div className="todoList">
       <div className="heading">
         <IconButton
           onClick={() => dispatch({ type: "reset" })}
@@ -77,7 +80,10 @@ function TodoList() {
           ))}
         </ul>
       </div>
+      </div>
+      <Button className="test" variant="text">Save</Button>
     </div>
+    
   );
 }
 

@@ -8,13 +8,14 @@
 .todoList {
   font-family: "Architects Daughter";
     font-size: 130%;
-    margin: auto;
+
     word-break: break-all;
+    min-height: inherit;
 }
 
 
 .container {
-
+  margin: auto;
 
   width: 100%;
   height: auto;
@@ -61,7 +62,7 @@
   margin-bottom: 20px;
 }
 
-.todoList button {
+.todoList  button {
   padding: 0;
   border: none;
   font-family: "Architects Daughter", cursive;
@@ -70,6 +71,9 @@
   border-radius: 5px;
   background-color: #ffeaa7;
 }
+
+
+
 .todoList button span {
   background: #f1f5f8;
   display: block;
