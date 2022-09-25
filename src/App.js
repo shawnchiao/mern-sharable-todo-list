@@ -2,14 +2,11 @@ import React, { useState, useCallback } from 'react';
 import {
   BrowserRouter as Router,
   Route,
-  Redirect,
-  Switch
+  Routes,
+  Navigate
 } from 'react-router-dom';
 
 import Users from './user/pages/Users';
-import NewPlace from './places/pages/NewPlace';
-import UserPlaces from './places/pages/UserPlaces';
-import UpdatePlace from './places/pages/UpdatePlace';
 import Auth from './user/pages/Auth';
 import MainNavigation from './shared/components/Navigation/MainNavigation';
 import { AuthContext } from './shared/context/auth-context';
@@ -32,36 +29,22 @@ const App = () => {
 
   if (isLoggedIn) {
     routes = (
-      <Switch>
-        <Route path="/" exact>
-          <Users />
-        </Route>
-        <Route path="/:userId/todoLists" exact>
-          <UserTodoLists />
-        </Route>
-        <Route path="/todoList/new" exact>
-          <AddTodoList />
-        </Route>
-        <Route path="/todoLists/:todoListId">
-          <TodoList  />
-        </Route>
-        <Redirect to="/" />
-      </Switch>
+      <Routes>
+        <Route path="/" element={<Users />} />
+        <Route path="/:userId/todoLists" element={<UserTodoLists />} />
+        <Route path="/todoList/new" element={<AddTodoList />} />
+        <Route path="/todoLists/:todoListId" element={<TodoList />} />
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
     );
   } else {
     routes = (
-      <Switch>
-        <Route path="/" exact>
-          <Users />
-        </Route>
-        <Route path="/:userId/todoLists" exact>
-          <UserTodoLists />
-        </Route>
-        <Route path="/auth">
-          <Auth />
-        </Route>
-        <Redirect to="/auth" />
-      </Switch>
+      <Routes>
+        <Route path="/" element={<Users />} />
+        <Route path="/:userId/todoLists" element={<UserTodoLists />} />
+        <Route path="/auth" element={<Auth />} />
+        <Route path="*" element={<Navigate to="/auth" />} />
+      </Routes>
     );
   }
 
