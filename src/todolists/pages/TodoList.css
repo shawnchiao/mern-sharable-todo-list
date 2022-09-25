@@ -1,19 +1,21 @@
- body {
+/* body{
   
-  min-height: 70vh;
-  padding: 1rem;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: hsl(198, 1%, 29%);
-  font-family: "Architects Daughter";
 
-  font-size: 130%;
-  white-space: normal;
+
+  word-break: break-all;
+} */
+
+.todoList {
+  font-family: "Architects Daughter";
+    font-size: 130%;
+    margin: auto;
+    word-break: break-all;
 }
 
+
 .container {
+
+
   width: 100%;
   height: auto;
   min-height: 500px;

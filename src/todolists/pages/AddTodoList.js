@@ -1,4 +1,5 @@
 import * as React from "react";
+
 import PropTypes from "prop-types";
 import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
@@ -8,24 +9,29 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemText from "@mui/material/ListItemText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Dialog from "@mui/material/Dialog";
-
 import { blueGrey } from "@mui/material/colors";
 import ShoppingCartTwoToneIcon from "@mui/icons-material/ShoppingCartTwoTone";
 import WorkHistoryTwoToneIcon from "@mui/icons-material/WorkHistoryTwoTone";
 import ChairTwoToneIcon from "@mui/icons-material/ChairTwoTone";
-import CustomSwitch from '../../shared/components/FormElements/CustomSwitch';
+import SendIcon from "@mui/icons-material/Send";
+import Divider from "@mui/material/Divider";
+import Stack from "@mui/material/Stack";
+
+import CustomSwitch from "../../shared/components/FormElements/CustomSwitch";
+
 
 const TypesOfTodoList = [
-  { type: "Shopping", avatar: <ShoppingCartTwoToneIcon/> },
-  { type: "Work", avatar: <WorkHistoryTwoToneIcon/> },
-  { type: "Everyday", avatar: <ChairTwoToneIcon/> },
+  { type: "Shopping", avatar: <ShoppingCartTwoToneIcon /> },
+  { type: "Work", avatar: <WorkHistoryTwoToneIcon /> },
+  { type: "Everyday", avatar: <ChairTwoToneIcon /> },
 ];
 
 export default function SimpleDialog(props) {
 
   const [open, setOpen] = React.useState(false);
   const [selectedValue, setSelectedValue] = React.useState(TypesOfTodoList[1]);
-  const [checked, setChecked ]=React.useState(true);
+  const [checked, setChecked] = React.useState(true);
+  const [choice, setChoice] = React.useState();
   const handleClose = (selectedValue) => {
     setOpen(false);
     setSelectedValue(selectedValue);
@@ -35,28 +41,53 @@ export default function SimpleDialog(props) {
   }, []);
 
   const handleListItemClick = (value) => {
-    handleClose(value);
+    setChoice(value);
   };
   const handleCheck = (c) => {
     setChecked(c);
-  }
-
+  };
+  console.log(choice);
   return (
-    <Dialog onClose={handleClose} open={open}>
-      <DialogTitle>Pick Up A To-do List</DialogTitle>
-      <List sx={{ pt: 0 }}>
-        {TypesOfTodoList.map((each) => (
-          <ListItem button onClick={() => handleListItemClick(each.type)} key={each.type}>
-            <ListItemAvatar>
-              <Avatar sx={{ bgcolor: blueGrey[50], color: blueGrey[700] }}>
-                {each.avatar}
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary={each.type} />
-          </ListItem>
-        ))}
-      </List>
-      <CustomSwitch label="Allow other users to edit" checked={handleCheck}/>
+    <Dialog onClose={handleClose} open={open} fullWidth="true">
+      <div className="typeChoices">
+        <DialogTitle>Choose a to-do list</DialogTitle>
+        <List sx={{ pt: 0 }}>
+          {TypesOfTodoList.map((each) => (
+            <ListItem
+              button
+              onClick={() => handleListItemClick(each.type)}
+              key={each.type}
+              style={{ background: choice === each.type && "#FD841F" }}
+            >
+              <ListItemAvatar>
+                <Avatar sx={{ bgcolor: blueGrey[50], color: blueGrey[700] }}>
+                  {each.avatar}
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText primary={each.type} />
+            </ListItem>
+          ))}
+        </List>
+      </div>
+      <Stack direction="column" spacing={1.5}>
+        <Divider />
+        <CustomSwitch
+          style={{ margin: "auto auto 10px" }}
+          label={checked ? "Allow other users to edit" : "Only you can  edit "}
+          checked={handleCheck}
+        />
+
+        <Button
+          variant="contained"
+          endIcon={<SendIcon />}
+          style={{ width: "17em", margin: "auto" }}
+          size="medium"
+          
+        >
+          Confirm
+        </Button>
+        <Divider />
+      </Stack>
     </Dialog>
   );
 }
@@ -85,7 +116,6 @@ SimpleDialog.propTypes = {
 // import ChairTwoToneIcon from "@mui/icons-material/ChairTwoTone";
 // import Avatar from "@mui/material/Avatar";
 // import ListItemAvatar from "@mui/material/ListItemAvatar";
-
 
 // const Transition = React.forwardRef(function Transition(props, ref) {
 //   return <Slide direction="up" ref={ref} {...props} />;
@@ -142,7 +172,7 @@ SimpleDialog.propTypes = {
 //             </ListItemAvatar>
 //             <ListItemText primary="Everyday"  />
 //           </ListItem>
-   
+
 //           <ListItem button>
 //           <ListItemAvatar>
 //               <Avatar>

@@ -1,7 +1,8 @@
 .todoItem {
   display: flex;
   align-items: baseline ;
-  height: 50px;
+
+
 }
 
 .spaceItemContent {

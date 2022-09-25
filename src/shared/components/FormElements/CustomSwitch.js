@@ -69,8 +69,9 @@ export default function CustomizedSwitches(props) {
 
   return (
     <FormGroup>
-      
+
       <FormControlLabel
+        style={props.style}
         control={<IOSSwitch sx={{ m: 1 }} defaultChecked checked={checked} onChange={handleChange}/>}
         label={props.label}
       />

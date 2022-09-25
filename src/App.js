@@ -18,7 +18,7 @@ import TodoList from './todolists/pages/TodoList';
 import AddTodoList from './todolists/pages/AddTodoList';
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const login = useCallback(() => {
     setIsLoggedIn(true);
@@ -43,7 +43,7 @@ const App = () => {
           <AddTodoList />
         </Route>
         <Route path="/todoLists/:todoListId">
-          <TodoList className="todoList" />
+          <TodoList  />
         </Route>
         <Redirect to="/" />
       </Switch>

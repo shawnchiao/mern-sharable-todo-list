@@ -14,7 +14,16 @@
   position: relative;
   margin:1.55px;
   top:4px;
+ 
+}
 
+.typeChoices {
+  display: flex;
+  align-self: stretch;
+  flex-wrap: wrap;
+  align-content: space-around;
+  justify-content: center;
+  padding: 10%;
 }
 
 .custom-checkbox input[type="checkbox"],
