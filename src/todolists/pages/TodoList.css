@@ -46,6 +46,10 @@
   margin-left: 1rem;
   
 }
+.form {
+  position: relative;
+    left: 30px;
+}
 
 .form input {
   box-sizing: border-box;
@@ -93,3 +97,7 @@ li {
   
 }
 
+.control {
+  display: flex;
+  justify-content: space-evenly;
+}
