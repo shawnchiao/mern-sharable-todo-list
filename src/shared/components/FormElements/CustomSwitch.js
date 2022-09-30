@@ -59,11 +59,11 @@ const IOSSwitch = styled((props) => (
 
 
 export default function CustomizedSwitches(props) {
-  const [checked, setChecked] = React.useState(true);
+  const [checked, setChecked] = React.useState(null);
 
   const handleChange = (event) => {
-    setChecked(event.target.checked);
-    props.checked(event.target.checked);
+
+    props.onChange(event.target.checked);
   };
 
 
@@ -72,7 +72,7 @@ export default function CustomizedSwitches(props) {
 
       <FormControlLabel
         style={props.style}
-        control={<IOSSwitch sx={{ m: 1 }} defaultChecked checked={checked} onChange={handleChange}/>}
+        control={<IOSSwitch sx={{ m: 1 }}  checked={props.checked} onChange={handleChange} />}
         label={props.label}
       />
       

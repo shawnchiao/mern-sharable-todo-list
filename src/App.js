@@ -24,9 +24,9 @@ const App = () => {
     routes = (
       <Routes>
         <Route path="/" element={<Users />} />
-        <Route path="/:userId/todoLists" element={<UserTodoLists />} />
-        <Route path="/todoList/new" element={<AddTodoList />} />
-        <Route path="/todoLists/:todoListId" element={<TodoList />} />
+        <Route path="/:userId/todolists" element={<UserTodoLists />} />
+        <Route path="/todolist/new" element={<AddTodoList />} />
+        <Route path="/todolists/:todolistId" element={<TodoList />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     );

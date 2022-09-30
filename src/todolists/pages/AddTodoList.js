@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useReducer, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import Button from "@mui/material/Button";
@@ -26,27 +26,44 @@ const TypesOfTodoList = [
   { type: "Everyday", avatar: <ChairTwoToneIcon /> },
 ];
 
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'setTypeOfTodo':
+      return { typeOfTodo: action.payload, setting: state.setting };
+    case 'setIsPublic':
+      return { ...state, setting: { isPublic: action.payload, isEditable: state.setting.isEditable} }
+    case 'setIsEditable':
+      return { ...state, setting: { isPublic: state.setting.isPublic , isEditable: action.payload } }
+    default:
+        return state;
+  }
+};
+
+
 export default function SimpleDialog(props) {
+
+  const [state, dispatch] = useReducer(reducer, { typeOfTodo: '', setting: { isPublic: false, isEditable: true} })
+
+
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
   const [selectedValue, setSelectedValue] = React.useState(TypesOfTodoList[1]);
-  const [checked, setChecked] = React.useState(true);
-  const [choice, setChoice] = React.useState();
+
   const handleClose = (selectedValue) => {
     setOpen(false);
     setSelectedValue(selectedValue);
   };
-  React.useEffect(() => {
+  useEffect(() => {
     setOpen(true);
   }, []);
 
   const handleListItemClick = (value) => {
-    setChoice(value);
+
+    dispatch({ type: "setTypeOfTodo", payload: value });
   };
-  const handleCheck = (c) => {
-    setChecked(c);
-  };
-  console.log(choice);
+
+
+  console.log(JSON.stringify(state))
   return (
     <Dialog onClose={handleClose} open={open} fullWidth="true">
       <div className="typeChoices">
@@ -57,7 +74,7 @@ export default function SimpleDialog(props) {
               button
               onClick={() => handleListItemClick(each.type)}
               key={each.type}
-              style={{ background: choice === each.type && "#FD841F" }}
+              style={{ background: state.typeOfTodo === each.type && "#FD841F" }}
             >
               <ListItemAvatar>
                 <Avatar sx={{ bgcolor: blueGrey[50], color: blueGrey[700] }}>
@@ -73,16 +90,23 @@ export default function SimpleDialog(props) {
         <Divider />
         <CustomSwitch
           style={{ margin: "auto auto 10px" }}
-          label={checked ? "Allow other users to edit" : "Only you can  edit "}
-          checked={handleCheck}
-        />
+          label={true? "Allow other users to view" : "Only you can view "}
+          onChange={(v)=> dispatch({ type: "setIsPublic", payload: v })}
+          checked={state.setting.isPublic}
 
+        />
+        <CustomSwitch
+          style={{ margin: "auto auto 20px" }}
+          label={true ? "Allow other users to edit" : "Only you can edit "}
+          onChange={(v)=> dispatch({ type: "setIsEditable", payload: v }) }
+          checked={state.setting.isEditable}
+        />
         <Button
           variant="contained"
           endIcon={<SendIcon />}
           style={{ width: "17em", margin: "auto" }}
           size="medium"
-          onClick={()=>navigate("/todoLists/t1")}
+          onClick={() => navigate("/todoLists/t1")}
         >
           Confirm
         </Button>
