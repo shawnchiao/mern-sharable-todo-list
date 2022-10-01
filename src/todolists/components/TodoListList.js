@@ -23,9 +23,10 @@ const TodoListList = props => {
         <TodoListItem
           key={todoList.id}
           id={todoList.id}
-          image={todoList.image}
+          // image={todoList.image}
           title={todoList.title}
           creatorId={todoList.creator}
+          type={todoList.type}
         />
       ))}
     </ul>

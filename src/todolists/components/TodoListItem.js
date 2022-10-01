@@ -1,17 +1,40 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import ShoppingCartTwoToneIcon from "@mui/icons-material/ShoppingCartTwoTone";
+import WorkHistoryTwoToneIcon from "@mui/icons-material/WorkHistoryTwoTone";
+import ChairTwoToneIcon from "@mui/icons-material/ChairTwoTone";
 
 import Avatar from '../../shared/components/UIElements/Avatar';
 import Card from '../../shared/components/UIElements/Card';
 
 
 const TodoListItem = props => {
+
+  const handleImage = () =>{
+    switch(props.type) {
+      case 'Shopping':
+        return <ShoppingCartTwoToneIcon sx={{ fontSize: 53 }} color='success'/>
+      
+      case 'Work':
+        return <WorkHistoryTwoToneIcon sx={{ fontSize: 53 }} color='secondary'/>
+      
+      case 'Everyday':
+        return <ChairTwoToneIcon sx={{ fontSize: 53 }} color='inherit'/>
+      
+      default:
+        throw new Error;
+    };
+  };
+ 
   return (
     <li className="user-item">
       <Card className="user-item__content">
         <Link to={`/todoLists/${props.id}`}>
           <div className="user-item__image">
-            <Avatar image={props.image} alt={props.title} />
+          {handleImage()}
+          {/* {props.type === 'Work' && <WorkHistoryTwoToneIcon sx={{ fontSize: 53 }} color='action'/> ||
+          props.type === 'Shopping' && <ShoppingCartTwoToneIcon/> } */}
+            {/* <Avatar image={handleImage} alt={props.title} /> */}
           </div>
           <div className="user-item__info">
             <h2>{props.title}</h2>
