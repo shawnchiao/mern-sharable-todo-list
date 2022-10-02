@@ -118,7 +118,7 @@ export default function SimpleDialog(props) {
     <>
       <ErrorModal error={error} onClear={clearError} />
       {isLoading && <LoadingSpinner asOverlay />}
-      <Dialog onClose={handleClose} open={open} fullWidth="true">
+      <Dialog onClose={handleClose} open={open} >
         <form onSubmit={submitHandler}>
           <div className="typeChoices">
             <DialogTitle>Choose a to-do list</DialogTitle>
@@ -187,107 +187,9 @@ export default function SimpleDialog(props) {
   );
 }
 
-SimpleDialog.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
-  selectedValue: PropTypes.string.isRequired,
-};
+// SimpleDialog.propTypes = {
+//   onClose: PropTypes.func.isRequired,
+//   open: PropTypes.bool.isRequired,
+//   selectedValue: PropTypes.string.isRequired,
+// };
 
-// import * as React from 'react';
-// import Button from '@mui/material/Button';
-// import Dialog from '@mui/material/Dialog';
-// import ListItemText from '@mui/material/ListItemText';
-// import ListItem from '@mui/material/ListItem';
-// import List from '@mui/material/List';
-// import Divider from '@mui/material/Divider';
-// import AppBar from '@mui/material/AppBar';
-// import Toolbar from '@mui/material/Toolbar';
-// import IconButton from '@mui/material/IconButton';
-// import Typography from '@mui/material/Typography';
-// import CloseIcon from '@mui/icons-material/Close';
-// import Slide from '@mui/material/Slide';
-// import ShoppingCartTwoToneIcon from "@mui/icons-material/ShoppingCartTwoTone";
-// import WorkHistoryTwoToneIcon from "@mui/icons-material/WorkHistoryTwoTone";
-// import ChairTwoToneIcon from "@mui/icons-material/ChairTwoTone";
-// import Avatar from "@mui/material/Avatar";
-// import ListItemAvatar from "@mui/material/ListItemAvatar";
-
-// const Transition = React.forwardRef(function Transition(props, ref) {
-//   return <Slide direction="up" ref={ref} {...props} />;
-// });
-
-// export default function FullScreenDialog() {
-//   const [open, setOpen] = React.useState(false);
-
-//   // const handleClickOpen = () => {
-//   //   setOpen(true);
-//   // };
-
-//   React.useEffect(()=>{setOpen(true)},[])
-
-//   const handleClose = () => {
-//     setOpen(false);
-//   };
-
-//   return (
-//     <div>
-//       {/* <Button variant="outlined" onClick={handleClickOpen}>
-//         Open full-screen dialog
-//       </Button> */}
-//       <Dialog
-//         fullScreen
-//         open={open}
-//         onClose={handleClose}
-//         TransitionComponent={Transition}
-//       >
-//         <AppBar sx={{ position: 'relative' }}>
-//           <Toolbar>
-//             <IconButton
-//               edge="start"
-//               color="inherit"
-//               onClick={handleClose}
-//               aria-label="close"
-//             >
-//               <CloseIcon />
-//             </IconButton>
-//             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-//               Create a new to-do list
-//             </Typography>
-//             <Button autoFocus color="inherit" onClick={handleClose}>
-//               save
-//             </Button>
-//           </Toolbar>
-//         </AppBar>
-//         <List>
-//           <ListItem button>
-//             <ListItemAvatar>
-//               <Avatar>
-//                 <ChairTwoToneIcon />
-//               </Avatar>
-//             </ListItemAvatar>
-//             <ListItemText primary="Everyday"  />
-//           </ListItem>
-
-//           <ListItem button>
-//           <ListItemAvatar>
-//               <Avatar>
-//                 <WorkHistoryTwoToneIcon />
-//               </Avatar>
-//             </ListItemAvatar>
-//             <ListItemText primary="Work" />
-//           </ListItem>
-//           <ListItem button>
-//           <ListItemAvatar>
-//               <Avatar>
-//                 <ShoppingCartTwoToneIcon />
-//               </Avatar>
-//             </ListItemAvatar>
-//             <ListItemText primary="Shopping" />
-//           </ListItem>
-//         </List>
-//         <Divider />
-
-//       </Dialog>
-//     </div>
-//   );
-// }
