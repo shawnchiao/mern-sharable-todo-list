@@ -30,7 +30,7 @@ const TodoListList = props => {
           title={todoList.title}
           creatorId={todoList.creator}
           type={todoList.type}
-          isShaking={props.isShaking}
+          isDeleteMode={props.isDeleteMode}
         />
       ))}
     

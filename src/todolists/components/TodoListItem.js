@@ -5,6 +5,7 @@ import WorkHistoryTwoToneIcon from "@mui/icons-material/WorkHistoryTwoTone";
 import ChairTwoToneIcon from "@mui/icons-material/ChairTwoTone";
 import RemoveCircleSharpIcon from '@mui/icons-material/RemoveCircleSharp';
 
+
 import Avatar from '../../shared/components/UIElements/Avatar';
 import Card from '../../shared/components/UIElements/Card';
 import './TodoListItem.css';
@@ -30,16 +31,12 @@ const TodoListItem = props => {
 
   return (
     <>
-      <li className={`${props.isShaking} user-item`}>
-        {props.isShaking &&
-          <RemoveCircleSharpIcon fontSize="large" color="info" style={{
-            position: "relative",
-            top: "19px",
-            right: "18px"
-          }} />
+      <li className={props.isDeleteMode ? "shaking todoListItem" : "user-item"} >
+        {props.isDeleteMode &&
+          <RemoveCircleSharpIcon fontSize="large"  className='removeIcon' />
         }
         <Card className="user-item__content">
-          <Link to={`/todoLists/${props.id}`}>
+          <Link to= {props.isDeleteMode ? "" : `/todoLists/${props.id}`}>
             <div className="user-item__image">
               {handleImage()}
               {/* {props.type === 'Work' && <WorkHistoryTwoToneIcon sx={{ fontSize: 53 }} color='action'/> ||
