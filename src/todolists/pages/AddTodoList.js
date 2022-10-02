@@ -68,6 +68,13 @@ export default function SimpleDialog(props) {
   const navigate = useNavigate();
   const [open, setOpen] = useState(true);
 
+  const buttonHandler = () => {
+    if (!state.typeOfTodo || !state.title) {
+      return true
+    } 
+    return false
+  };
+
   const handleClose = (selectedValue) => {
     setOpen(false);
     navigate("/");
@@ -142,6 +149,7 @@ export default function SimpleDialog(props) {
               label="Title"
               variant="outlined"
               value={state.title}
+              margin='dense'
               onChange={(e) => {
                 dispatch({ type: "setTitle", payload: e.target.value });
               }}
@@ -166,6 +174,7 @@ export default function SimpleDialog(props) {
               variant="contained"
               endIcon={<SendIcon />}
               style={{ width: "17em", margin: "auto" }}
+              disabled={buttonHandler()}
               size="medium"
             >
               Confirm

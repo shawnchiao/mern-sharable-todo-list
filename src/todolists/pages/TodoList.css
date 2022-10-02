@@ -8,9 +8,9 @@
 .todoList {
   font-family: "Architects Daughter";
     font-size: 130%;
-
     word-break: break-all;
     min-height: inherit;
+    
 }
 
 
@@ -29,6 +29,8 @@
   box-shadow: 4px 3px 7px 2px #00000040;
   padding: 1rem;
   box-sizing: border-box;
+  position: relative;
+    top:20px;
 }
 .heading {
   display: flex;
@@ -87,8 +89,7 @@
 }
 
 
-
-li {
+.spaceItemContent li {
   text-align: left;
   position: relative;
   left: 0.3rem;
