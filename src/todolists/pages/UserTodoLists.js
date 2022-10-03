@@ -17,11 +17,10 @@ const UserTodoLists = () => {
   const userId = useParams().userId;
 
   const deleteHandler = (deletedtodoListId) => {
-    setTodoLists(prev => 
-      prev.filter(todoList => todoList.id !== deletedtodoListId)
-      );
+    setTodoLists((prev) =>
+      prev.filter((todoList) => todoList.id !== deletedtodoListId)
+    );
   };
-
 
   useEffect(() => {
     const getData = async () => {
@@ -36,24 +35,30 @@ const UserTodoLists = () => {
     getData();
   }, [sendRequest, userId]);
 
-
   return (
     <>
       <ErrorModal error={error} onClear={clearError} />
       {isLoading && <LoadingSpinner asOverlay />}
-      <TodoListList isDeleteMode={isDeleteMode} items={todoLists} onDelete={deleteHandler} />;
-      <Fab
-        color="default"
-        aria-label="edit"
-        onClick={() => setIsDeleteMode((prev) => !prev)}
-        style={{
-          position: "sticky",
-          bottom: "0.5rem",
-          left: "95%",
-        }}
-      >
-        {isDeleteMode ? <EditIcon /> : <DeleteIcon />}
-      </Fab>
+      <TodoListList
+        isDeleteMode={isDeleteMode}
+        items={todoLists}
+        onDelete={deleteHandler}
+      />
+      ;
+      {todoLists.length != 0 && (
+        <Fab
+          color="default"
+          aria-label="edit"
+          onClick={() => setIsDeleteMode((prev) => !prev)}
+          style={{
+            position: "sticky",
+            bottom: "0.5rem",
+            left: "95%",
+          }}
+        >
+          {isDeleteMode ? <EditIcon /> : <DeleteIcon />}
+        </Fab>
+      )}
     </>
   );
 };

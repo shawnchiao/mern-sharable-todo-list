@@ -1,6 +1,5 @@
 import React, { useReducer, useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import PropTypes from "prop-types";
 import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
 import List from "@mui/material/List";
@@ -63,7 +62,7 @@ export default function SimpleDialog(props) {
   const { error, isLoading, sendRequest, clearError } = useHttpClient();
   const [state, dispatch] = useReducer(reducer, {
     typeOfTodo: "",
-    setting: { isPublic: false, isEditable: true },
+    setting: { isPublic: true, isEditable: false },
     title: "",
   });
   const navigate = useNavigate();
@@ -76,7 +75,7 @@ export default function SimpleDialog(props) {
     return false
   };
 
-  const handleClose = (selectedValue) => {
+  const handleClose = () => {
     setOpen(false);
     navigate("/");
   };
@@ -159,14 +158,14 @@ export default function SimpleDialog(props) {
           <Stack direction="column" spacing={1.5}>
             <Divider />
             <CustomSwitch
-              style={{ margin: "auto auto 10px" }}
-              label={true ? "Allow other users to view" : "Only you can view "}
+              style={{margin: "auto auto 10px 29%",width: "240px" }}
+              label={state.setting.isPublic ? "Allow other users to view" : "Only you can view "}
               onChange={(v) => dispatch({ type: "setIsPublic", payload: v })}
               checked={state.setting.isPublic}
             />
             <CustomSwitch
-              style={{ margin: "auto auto 20px" }}
-              label={true ? "Allow other users to edit" : "Only you can edit "}
+              style={{margin: "auto auto 10px 29%",width: "240px" }}
+              label={state.setting.isEditable ? "Allow other users to edit" : "Only you can edit "}
               onChange={(v) => dispatch({ type: "setIsEditable", payload: v })}
               checked={state.setting.isEditable}
             />
@@ -174,7 +173,7 @@ export default function SimpleDialog(props) {
               type="submit"
               variant="contained"
               endIcon={<SendIcon />}
-              style={{ width: "17em", margin: "auto" }}
+              style={{ width: "14.5rem", margin: "1rem auto " }}
               disabled={buttonHandler()}
               size="medium"
             >
