@@ -1,17 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import ShoppingCartTwoToneIcon from "@mui/icons-material/ShoppingCartTwoTone";
 import WorkHistoryTwoToneIcon from "@mui/icons-material/WorkHistoryTwoTone";
 import ChairTwoToneIcon from "@mui/icons-material/ChairTwoTone";
 import RemoveCircleSharpIcon from '@mui/icons-material/RemoveCircleSharp';
 
-
+import { AuthContext } from '../../shared/context/authContext';
+import useHttpClient from '../../shared/hooks/httpHook';
+import ErrorModal from "../../shared/components/UIElements/ErrorModal";
+import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import Avatar from '../../shared/components/UIElements/Avatar';
 import Card from '../../shared/components/UIElements/Card';
 import './TodoListItem.css';
 
 
 const TodoListItem = props => {
+  const { error, isLoading, sendRequest, clearError } = useHttpClient();
+  const auth = useContext(AuthContext);
 
   const handleImage = () => {
     switch (props.type) {
@@ -29,14 +34,27 @@ const TodoListItem = props => {
     };
   };
 
+  const deleteHandler = async () => {
+    try {
+      await sendRequest(`${process.env.REACT_APP_BACKEND_URL}/todolists/${props.id}`,
+        'DELETE',
+        null,
+        { Authorization: 'Bearer ' + auth.token }
+      )  
+    } catch (err) { throw Error};
+    props.onDelete(props.id);
+  };
+
   return (
     <>
+       <ErrorModal error={error} onClear={clearError} />
+       { isLoading && <LoadingSpinner asOverlay />}
       <li className={props.isDeleteMode ? "shaking todoListItem" : "user-item"} >
         {props.isDeleteMode &&
-          <RemoveCircleSharpIcon fontSize="large"  className='removeIcon' />
+          <RemoveCircleSharpIcon fontSize="large" className='removeIcon' onClick={deleteHandler} />
         }
         <Card className="user-item__content">
-          <Link to= {props.isDeleteMode ? "" : `/todoLists/${props.id}`}>
+          <Link to={props.isDeleteMode ? "" : `/todoLists/${props.id}`}>
             <div className="user-item__image">
               {handleImage()}
               {/* {props.type === 'Work' && <WorkHistoryTwoToneIcon sx={{ fontSize: 53 }} color='action'/> ||

@@ -21,16 +21,16 @@ const TodoListList = props => {
   }
 
   return (
-    <ul className="users-list">
+    <ul className="users-list" style={{minHeight:'76vh', alignContent:"flex-start"}}>
       {props.items.map(todoList => (
         <TodoListItem
           key={todoList.id}
           id={todoList.id}
-          // image={todoList.image}
           title={todoList.title}
           creatorId={todoList.creator}
           type={todoList.type}
           isDeleteMode={props.isDeleteMode}
+          onDelete={props.onDelete}
         />
       ))}
     

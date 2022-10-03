@@ -16,6 +16,13 @@ const UserTodoLists = () => {
 
   const userId = useParams().userId;
 
+  const deleteHandler = (deletedtodoListId) => {
+    setTodoLists(prev => 
+      prev.filter(todoList => todoList.id !== deletedtodoListId)
+      );
+  };
+
+
   useEffect(() => {
     const getData = async () => {
       let responseData;
@@ -28,13 +35,13 @@ const UserTodoLists = () => {
     };
     getData();
   }, [sendRequest, userId]);
-  console.log(isDeleteMode);
+
 
   return (
     <>
       <ErrorModal error={error} onClear={clearError} />
       {isLoading && <LoadingSpinner asOverlay />}
-      <TodoListList isDeleteMode={isDeleteMode} items={todoLists} />;
+      <TodoListList isDeleteMode={isDeleteMode} items={todoLists} onDelete={deleteHandler} />;
       <Fab
         color="default"
         aria-label="edit"
