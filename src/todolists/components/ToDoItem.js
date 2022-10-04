@@ -29,7 +29,7 @@ function ToDoItem(props) {
   // function space() {
   //   props.text.length;
   // }
-
+//  console.log(props.id)
   return (
     <div className="todoItem">
       <CheckBox >
@@ -42,6 +42,7 @@ function ToDoItem(props) {
           !clicked && playSound();
           cross();
         }}
+        onChange={(e)=> props.dispatch({type: "setTodo", payload: {index:props.id, isChecked: e.target.checked}})}
       >
         <MdOutlineCheckBoxOutlineBlank className="unchecked " />
         <CheckBoxRoundedIcon fontSize="medium" className="checked tick " />

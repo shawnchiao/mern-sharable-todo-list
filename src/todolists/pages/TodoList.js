@@ -18,7 +18,14 @@ function TodoList() {
   const { error, isLoading, sendRequest, clearError } = useHttpClient();
   const [inputText, setInputText] = useState("");
   const [hover, setHover] = useState(false);
-  const [state, dispatch] = useReducer(reducer, [{isPublic:false, isEditable:false}, []], init);
+  const [state, dispatch] = useReducer(
+    reducer,
+    [
+      { isPublic: false, isEditable: false },
+      [{ isImportant: false, isChecked: false, content: "" }],
+    ],
+    init
+  );
 
   const todoListId = useParams().todolistId;
 
@@ -42,7 +49,7 @@ function TodoList() {
   function reducer(state, action) {
     switch (action.type) {
       case "addItem":
-        return { ...state, todos: [...state.todos, action.payload.inputText] };
+        return { ...state, todos: [...state.todos,{ isImportant:false, isChecked:false , content:action.payload.inputText} ] };
       case "deleteItem":
         return {
           ...state,
@@ -50,8 +57,16 @@ function TodoList() {
             return index !== action.payload;
           }),
         };
+      case "setTodo":
+        const {index, ...otherPayload} = action.payload;
+        //  remove the todo clicked from the state, so that it won't generate extra one
+        const theRestTodos = state.todos.filter((todo) => todo != state.todos[index]);
+        // add the clicked todo to it with specified setting
+        theRestTodos.splice(index, 0, {...state.todos[index], ...otherPayload});
+        return  {...state, todos:[  ...theRestTodos ]}   
+         
       case "setSetting":
-       return { ...state, setting: {...state.setting, ...action.payload}}
+        return { ...state, setting: { ...state.setting, ...action.payload } };
 
       case "setState":
         return { setting: action.payload.setting, todos: action.payload.todos };
@@ -102,7 +117,7 @@ function TodoList() {
               <ToDoItem
                 key={index}
                 id={index}
-                text={eachItem}
+                text={eachItem.content}
                 dispatch={dispatch}
               />
             ))}
@@ -116,7 +131,7 @@ function TodoList() {
               onChange={(e) =>
                 dispatch({
                   type: "setSetting",
-                  payload: { isPublic: e.target.checked},
+                  payload: { isPublic: e.target.checked },
                 })
               }
               checked={state.setting.isPublic}
@@ -130,7 +145,7 @@ function TodoList() {
               onChange={(e) =>
                 dispatch({
                   type: "setSetting",
-                  payload: { isEditable: e.target.checked},
+                  payload: { isEditable: e.target.checked },
                 })
               }
               checked={state.setting.isEditable}
