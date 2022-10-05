@@ -5,6 +5,8 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import Stack from "@mui/material/Stack";
+import SaveIcon from '@mui/icons-material/Save';
+import Fab from "@mui/material/Fab";
 import { GrPowerReset } from "react-icons/gr";
 
 import ToDoItem from "../components/ToDoItem";
@@ -12,6 +14,7 @@ import IconButton from "../components/IconButton";
 import useHttpClient from "../../shared/hooks/httpHook";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
+import SpeedDialTooltipOpen from "../components/SpeedDial";
 import "./TodoList.css";
 
 function TodoList() {
@@ -58,10 +61,16 @@ function TodoList() {
           }),
         };
       case "setTodo":
+     
+         
+
         const {index, ...otherPayload} = action.payload;
         //  remove the todo clicked from the state, so that it won't generate extra one
         const theRestTodos = state.todos.filter((todo) => todo != state.todos[index]);
         // add the clicked todo to it with specified setting
+        // an array of objects can't use spread operator like this 
+        // return  {...state, todos:[ ...state.todos, {...state.todos[index], ...otherPayload}]}  
+        // because there's no key for an object, so it would add new object in the array
         theRestTodos.splice(index, 0, {...state.todos[index], ...otherPayload});
         return  {...state, todos:[  ...theRestTodos ]}   
          
@@ -90,6 +99,7 @@ function TodoList() {
 
   console.log(state);
   return (
+    <>
     <div className="container">
       <div className="todoList">
         <div className="heading">
@@ -128,6 +138,7 @@ function TodoList() {
         <FormControlLabel
           control={
             <Switch
+            color="default"
               onChange={(e) =>
                 dispatch({
                   type: "setSetting",
@@ -142,6 +153,7 @@ function TodoList() {
         <FormControlLabel
           control={
             <Switch
+            color="info"
               onChange={(e) =>
                 dispatch({
                   type: "setSetting",
@@ -153,11 +165,31 @@ function TodoList() {
           }
           label="Editable"
         />
-        <Button className="test" variant="text">
+        <Button size="large" className="test " variant="text" color="warning">
           Save
         </Button>
       </div>
     </div>
+    <SpeedDialTooltipOpen/>
+      {/* <Fab
+     
+          color="default"
+          aria-label="edit"
+          // onClick={() => setIsDeleteMode((prev) => !prev)}
+          sx={{ "&:hover": { backgroundColor: "grey"} }}
+          style={{
+            position: "sticky",
+            bottom: "0.5rem",
+            left: "95%",
+            color: "#ffc107",
+            backgroundColor: "#3f51b5"
+           
+          }}
+        >
+         <SaveIcon/>
+     
+        </Fab> */}
+        </>
   );
 }
 

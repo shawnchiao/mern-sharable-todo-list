@@ -32,7 +32,9 @@ function ToDoItem(props) {
 //  console.log(props.id)
   return (
     <div className="todoItem">
-      <CheckBox >
+      <CheckBox 
+      onChange={(e)=> props.dispatch({type: "setTodo", payload: {index:props.id, isImportant: e.target.checked}})}
+      >
         <BsBookmark size="20px" className="unchecked" />
         <BsBookmarkStarFill size="20px" className="checked" />
       </CheckBox>
