@@ -14,7 +14,8 @@ import IconButton from "../components/IconButton";
 import useHttpClient from "../../shared/hooks/httpHook";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
-import SpeedDialTooltipOpen from "../components/SpeedDial";
+import SpeedDial from "../components/SpeedDial";
+
 import "./TodoList.css";
 
 function TodoList() {
@@ -61,9 +62,6 @@ function TodoList() {
           }),
         };
       case "setTodo":
-     
-         
-
         const {index, ...otherPayload} = action.payload;
         //  remove the todo clicked from the state, so that it won't generate extra one
         const theRestTodos = state.todos.filter((todo) => todo != state.todos[index]);
@@ -79,8 +77,8 @@ function TodoList() {
 
       case "setState":
         return { setting: action.payload.setting, todos: action.payload.todos };
-      case "reset":
-        return init([]);
+      case "empty":
+        return {...state, todos:[]};
       default:
         return { ...state };
     }
@@ -134,61 +132,10 @@ function TodoList() {
           </ul>
         </div>
       </div>
-      <div className="control">
-        <FormControlLabel
-          control={
-            <Switch
-            color="default"
-              onChange={(e) =>
-                dispatch({
-                  type: "setSetting",
-                  payload: { isPublic: e.target.checked },
-                })
-              }
-              checked={state.setting.isPublic}
-            />
-          }
-          label="Public"
-        />
-        <FormControlLabel
-          control={
-            <Switch
-            color="info"
-              onChange={(e) =>
-                dispatch({
-                  type: "setSetting",
-                  payload: { isEditable: e.target.checked },
-                })
-              }
-              checked={state.setting.isEditable}
-            />
-          }
-          label="Editable"
-        />
-        <Button size="large" className="test " variant="text" color="warning">
-          Save
-        </Button>
-      </div>
+     
     </div>
-    <SpeedDialTooltipOpen/>
-      {/* <Fab
-     
-          color="default"
-          aria-label="edit"
-          // onClick={() => setIsDeleteMode((prev) => !prev)}
-          sx={{ "&:hover": { backgroundColor: "grey"} }}
-          style={{
-            position: "sticky",
-            bottom: "0.5rem",
-            left: "95%",
-            color: "#ffc107",
-            backgroundColor: "#3f51b5"
-           
-          }}
-        >
-         <SaveIcon/>
-     
-        </Fab> */}
+    <SpeedDial dispatch={dispatch} setting={state.setting}/>
+
         </>
   );
 }

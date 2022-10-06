@@ -61,7 +61,6 @@ function ToDoItem(props) {
       >
         <AiFillDelete size="1.2rem" />
       </IconButton>
-
       <div style={{ clear: "both" }}></div>
     </div>
   );
