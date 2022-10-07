@@ -11,20 +11,15 @@ import Switch from "@mui/material/Switch";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
-import TodoSettingDialog from "./todoSettingDialog";
-// const test = ()=> {
-//   console.log('setting clciked');
-//   <Backdrop
-//         open={open}
-//         onClick={handleClose}
-//         invisible
+import WarningDialog from "./WarningDialog";
 
-//       />
-// };
+
+
 
 export default function SpeedDialTooltipOpen(props) {
   const [open, setOpen] = React.useState(false);
   const [settingOpen, setSettingOpen] = React.useState(false);
+  const [ openWarning, setOpenWarning ] = React.useState(false);
   const {setting, dispatch } = props;
 
   const handleOpen = () => setOpen(true);
@@ -50,7 +45,7 @@ export default function SpeedDialTooltipOpen(props) {
       name: "Empty",
       handleClick: () => {
         console.log("empty clicked");
-        dispatch({type:"empty"})
+        setOpenWarning(true);
       },
     },
 
@@ -69,6 +64,7 @@ export default function SpeedDialTooltipOpen(props) {
   return (
     <>
       {/* // <Box sx={{ height: 200, transform: "translateZ(0px)", flexGrow: 1 }}> */}
+     
       <div style={{ display: "contents" }}>
         <Backdrop open={open} onClick={handleClose} />
         <SpeedDial
@@ -91,7 +87,7 @@ export default function SpeedDialTooltipOpen(props) {
           onMouseEnter={handleOpen}
           open={open}
         >
-          {/* <TodoSettingDialog open={settingOpen} onClose={handleClose}/> */}
+         
           {actions.map((action) => (
             <SpeedDialAction
               key={action.name}
@@ -154,6 +150,14 @@ export default function SpeedDialTooltipOpen(props) {
           </Box>
         </SpeedDial>
         {/* </Box> */}
+        {/* <WarningDialog
+        title="Are you sure you want to empty this to-do list?"
+        description=""
+        action="EMPTY"
+        openWarning={openWarning}
+        setOpenWarning={setOpenWarning}
+        deleteHandler={dispatch({type:"empty"})}
+      /> */}
       </div>
     </>
   );

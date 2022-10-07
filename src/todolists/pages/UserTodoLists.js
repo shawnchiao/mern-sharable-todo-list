@@ -43,9 +43,10 @@ const UserTodoLists = () => {
         isDeleteMode={isDeleteMode}
         items={todoLists}
         onDelete={deleteHandler}
+        setIsDeleteMode={setIsDeleteMode}
       />
       ;
-      {todoLists.length != 0 && (
+      {todoLists.length !== 0 && (
         <Fab
           color="default"
           aria-label="edit"

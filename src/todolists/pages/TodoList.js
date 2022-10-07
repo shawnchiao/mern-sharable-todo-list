@@ -21,7 +21,6 @@ import "./TodoList.css";
 function TodoList() {
   const { error, isLoading, sendRequest, clearError } = useHttpClient();
   const [inputText, setInputText] = useState("");
-  const [hover, setHover] = useState(false);
   const [state, dispatch] = useReducer(
     reducer,
     [
@@ -78,6 +77,7 @@ function TodoList() {
       case "setState":
         return { setting: action.payload.setting, todos: action.payload.todos };
       case "empty":
+        setInputText("");
         return {...state, todos:[]};
       default:
         return { ...state };
@@ -101,14 +101,6 @@ function TodoList() {
     <div className="container">
       <div className="todoList">
         <div className="heading">
-          <IconButton
-            onClick={() => dispatch({ type: "reset" })}
-            onMouseEnter={() => setHover(true)}
-            onMouseLeave={() => setHover(false)}
-            style={{ backgroundColor: hover && "#F24C4C" }}
-          >
-            <GrPowerReset />
-          </IconButton>
           <h1>To-Do List</h1>
         </div>
         <div className="form">

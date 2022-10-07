@@ -28,6 +28,7 @@ const TodoListList = props => {
           type={todoList.type}
           isDeleteMode={props.isDeleteMode}
           onDelete={props.onDelete}
+          setIsDeleteMode={props.setIsDeleteMode}
         />
       ))}
     
