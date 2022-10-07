@@ -52,10 +52,14 @@
 .heading.workType h1 {
   background-color: #72cdd3;
   font-family: American Typewriter, serif ;
+  transform: rotate(0deg);
+  padding:0;
+  color: white;
 }
 .heading.shoppingType h1 {
   background-color: #ffe2bd;
   font-family:  Comic Sans MS, Comic Sans, cursive ;
+ 
 }
 
 .form {
@@ -78,6 +82,17 @@
   margin-bottom: 20px;
 }
 
+.workType.form input {
+  border-bottom: dashed 3px #9dd0d4  ;
+  
+  }
+  .workType.form  :focus {
+    outline: none !important;
+    border: dashed 3px #9dd0d4  ;
+ 
+  }
+
+
 .todoList  button {
   padding: 0;
   border: none;
@@ -88,8 +103,9 @@
   background-color: #ffeaa7;
 }
 
-
-
+.workType  button {
+background-color: #c2edf0;
+}
 .todoList button span {
   background: #f1f5f8;
   display: block;

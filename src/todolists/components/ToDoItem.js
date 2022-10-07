@@ -2,7 +2,7 @@ import React from "react";
 import { BsBookmark, BsBookmarkStarFill } from "react-icons/bs";
 import {
   MdOutlineCheckBoxOutlineBlank,
-  MdOutlineCheckBox
+  MdOutlineCheckBox,
 } from "react-icons/md";
 import { AiFillDelete } from "react-icons/ai";
 
@@ -10,7 +10,7 @@ import audio from "./clickSound.wav";
 import CheckBox from "./CheckBox";
 import IconButton from "./IconButton";
 import CheckBoxRoundedIcon from "@mui/icons-material/CheckBoxRounded";
-import './todoItem.css';
+import "./todoItem.css";
 
 function ToDoItem(props) {
   const [clicked, setClicked] = React.useState(false);
@@ -29,11 +29,17 @@ function ToDoItem(props) {
   // function space() {
   //   props.text.length;
   // }
-//  console.log(props.id)
+  //  console.log(props.id)
   return (
     <div className="todoItem">
-      <CheckBox 
-      onChange={(e)=> props.dispatch({type: "setTodo", payload: {index:props.id, isImportant: e.target.checked}})}
+      <CheckBox
+        onChange={(e) =>
+          props.dispatch({
+            type: "setTodo",
+            payload: { index: props.id, isImportant: e.target.checked },
+          })
+        }
+        checked={props.isImportant}
       >
         <BsBookmark size="20px" className="unchecked" />
         <BsBookmarkStarFill size="20px" className="checked" />
@@ -44,12 +50,18 @@ function ToDoItem(props) {
           !clicked && playSound();
           cross();
         }}
-        onChange={(e)=> props.dispatch({type: "setTodo", payload: {index:props.id, isChecked: e.target.checked}})}
+        onChange={(e) =>
+          props.dispatch({
+            type: "setTodo",
+            payload: { index: props.id, isChecked: e.target.checked },
+          })
+        }
+        checked={props.isChecked}
       >
         <MdOutlineCheckBoxOutlineBlank className="unchecked " />
         <CheckBoxRoundedIcon fontSize="medium" className="checked tick " />
 
-        <li style={{ textDecoration: clicked ? "line-through" : "none" }}>
+        <li style={{ textDecoration: props.isChecked ? "line-through" : "none" }}>
           {props.text}
         </li>
       </CheckBox>

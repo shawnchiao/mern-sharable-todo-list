@@ -158,7 +158,7 @@ return (
         <div className={`heading ${state.type === "Work" ? 'workType' : ''}  ${state.type === "Shopping" ? 'shoppingType' : ''}`}>
           <h1>{handleTitle()}</h1>
         </div>
-        <div className="form">
+        <div className={`form ${state.type === "Work" ? 'workType' : ''}`}>
           <form onSubmit={addItem}>
             <input onChange={handleChange} type="text" value={inputText} />
             <button type="submit">
@@ -174,6 +174,8 @@ return (
                 id={index}
                 text={eachItem.content}
                 dispatch={dispatch}
+                isImportant={eachItem.isImportant}
+                isChecked={eachItem.isChecked}
               />
             ))}
           </ul>
