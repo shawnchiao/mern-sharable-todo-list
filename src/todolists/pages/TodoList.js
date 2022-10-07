@@ -15,12 +15,14 @@ import useHttpClient from "../../shared/hooks/httpHook";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import SpeedDial from "../components/SpeedDial";
+import WarningDialog from "../components/WarningDialog";
 
 import "./TodoList.css";
 
 function TodoList() {
   const { error, isLoading, sendRequest, clearError } = useHttpClient();
   const [inputText, setInputText] = useState("");
+  const [ openWarning, setOpenWarning ] = useState(false);
   const [state, dispatch] = useReducer(
     reducer,
     [
@@ -95,9 +97,14 @@ function TodoList() {
     setInputText("");
   }
 
+  const test = ()=>{
+    dispatch({type:"empty"});
+  }
+
   console.log(state);
   return (
     <>
+   
     <div className="container">
       <div className="todoList">
         <div className="heading">
@@ -126,7 +133,15 @@ function TodoList() {
       </div>
      
     </div>
-    <SpeedDial dispatch={dispatch} setting={state.setting}/>
+    <WarningDialog
+        title="Are you sure you want to delete it?"
+        description="Please note the deleted item cannot be undone"
+        action="DELETE"
+        openWarning={openWarning}
+        setOpenWarning={setOpenWarning}
+        deleteHandler={()=>dispatch({type:"empty"})}
+      />
+    <SpeedDial dispatch={dispatch} setting={state.setting} setOpenWarning={setOpenWarning}/>
 
         </>
   );
