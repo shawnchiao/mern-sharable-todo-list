@@ -6,7 +6,7 @@
 } */
 
 .todoList {
-  font-family: "Architects Daughter";
+  font-family: DejaVu Sans Mono, monospace;
     font-size: 130%;
     word-break: break-all;
     min-height: inherit;
@@ -41,7 +41,7 @@
 }
 .heading h1 {
   transform: rotate(2deg);
-  padding: 0.2rem 1.6rem;
+  padding: 0.2rem 1.75rem;
   border-radius: 20% 5% 20% 5%/5% 20% 25% 20%;
   background-color: #d8a443;
   font-size: 1.5rem;
@@ -92,6 +92,7 @@
 .spaceItemContent li {
   text-align: left;
   position: relative;
+  bottom: 0.25rem;
   left: 0.3rem;
   padding: 0.55rem;
   display:inline-block;

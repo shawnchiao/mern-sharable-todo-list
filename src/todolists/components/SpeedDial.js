@@ -19,7 +19,7 @@ import WarningDialog from "./WarningDialog";
 export default function SpeedDialTooltipOpen(props) {
   const [open, setOpen] = React.useState(false);
   const [settingOpen, setSettingOpen] = React.useState(false);
-
+  const [ openWarning, setOpenWarning ] = React.useState(false);
   const {setting, dispatch } = props;
 
   const handleOpen = () => setOpen(true);
@@ -45,7 +45,7 @@ export default function SpeedDialTooltipOpen(props) {
       name: "Empty",
       handleClick: () => {
         console.log("empty clicked");
-        props.setOpenWarning(true);
+        setOpenWarning(true);
       },
     },
 
@@ -149,6 +149,17 @@ export default function SpeedDialTooltipOpen(props) {
           </Box>
        
         </SpeedDial>
+        <WarningDialog
+        title="Are you sure you want to empty it?"
+        description=""
+        action="EMPTY"
+        openWarning={openWarning}
+        setOpenWarning={setOpenWarning}
+        deleteHandler={()=>{
+          dispatch({type:"empty"});
+          setOpenWarning(false);
+        }}
+      />
       </div>
     </>
   );

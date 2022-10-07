@@ -22,7 +22,6 @@ import "./TodoList.css";
 function TodoList() {
   const { error, isLoading, sendRequest, clearError } = useHttpClient();
   const [inputText, setInputText] = useState("");
-  const [ openWarning, setOpenWarning ] = useState(false);
   const [state, dispatch] = useReducer(
     reducer,
     [
@@ -133,15 +132,7 @@ function TodoList() {
       </div>
      
     </div>
-    <WarningDialog
-        title="Are you sure you want to delete it?"
-        description="Please note the deleted item cannot be undone"
-        action="DELETE"
-        openWarning={openWarning}
-        setOpenWarning={setOpenWarning}
-        deleteHandler={()=>dispatch({type:"empty"})}
-      />
-    <SpeedDial dispatch={dispatch} setting={state.setting} setOpenWarning={setOpenWarning}/>
+    <SpeedDial dispatch={dispatch} setting={state.setting} />
 
         </>
   );
