@@ -64,12 +64,12 @@ export default function SpeedDialTooltipOpen(props) {
   return (
     <>
        
-      <div style={{ display: "contents" }}>
+      <div >
         <Backdrop open={open} onClick={handleClose} />
         <SpeedDial
           ariaLabel="SpeedDial tooltip example"
           sx={[
-            { position: "sticky", marginLeft: "80vw", bottom: "1rem" },
+            { position: "fixed", marginLeft: "85%", bottom: "10%" },
             {
               "& .MuiFab-primary": {
                 backgroundColor: "#ffc107",
@@ -85,6 +85,11 @@ export default function SpeedDialTooltipOpen(props) {
           onClick={handleClick}
           onMouseEnter={handleOpen}
           open={open}
+          FabProps={{
+                sx: {
+                 right: settingOpen && "40px"
+                },
+              }}
         >
          
           {actions.map((action) => (

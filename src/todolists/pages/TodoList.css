@@ -37,7 +37,8 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 1rem;
-  font-family: "Architects Daughter", cursive;
+  font-family: Marker Felt, fantasy;
+  /* "Architects Daughter", cursive; */
 }
 .heading h1 {
   transform: rotate(2deg);
@@ -45,7 +46,7 @@
   border-radius: 20% 5% 20% 5%/5% 20% 25% 20%;
   background-color: #d8a443;
   font-size: 1.5rem;
-  margin-left: 1rem;
+  /* margin-left: 1rem; */
   
 }
 .form {

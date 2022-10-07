@@ -103,7 +103,8 @@ function TodoList() {
   console.log(state);
   return (
     <>
-   
+    <ErrorModal error={error} onClear={clearError} />
+      {isLoading && <LoadingSpinner asOverlay />}
     <div className="container">
       <div className="todoList">
         <div className="heading">
