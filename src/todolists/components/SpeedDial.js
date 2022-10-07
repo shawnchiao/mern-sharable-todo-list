@@ -20,7 +20,7 @@ export default function SpeedDialTooltipOpen(props) {
   const [open, setOpen] = React.useState(false);
   const [settingOpen, setSettingOpen] = React.useState(false);
   const [ openWarning, setOpenWarning ] = React.useState(false);
-  const {setting, dispatch } = props;
+  const {setting, dispatch, handleSave } = props;
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
@@ -38,6 +38,7 @@ export default function SpeedDialTooltipOpen(props) {
       name: "Save",
       handleClick: () => {
         console.log("save clicked");
+        handleSave();
       },
     },
     {

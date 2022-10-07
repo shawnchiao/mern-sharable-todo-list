@@ -47,8 +47,17 @@
   background-color: #d8a443;
   font-size: 1.5rem;
   /* margin-left: 1rem; */
-  
 }
+
+.heading.workType h1 {
+  background-color: #72cdd3;
+  font-family: American Typewriter, serif ;
+}
+.heading.shoppingType h1 {
+  background-color: #ffe2bd;
+  font-family:  Comic Sans MS, Comic Sans, cursive ;
+}
+
 .form {
   position: relative;
     left: 30px;
@@ -72,7 +81,7 @@
 .todoList  button {
   padding: 0;
   border: none;
-  font-family: "Architects Daughter", cursive;
+  font-family: sans-serif;
   text-decoration: none;
   padding-bottom: 3px;
   border-radius: 5px;
