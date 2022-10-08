@@ -30,6 +30,7 @@ const UserTodoLists = () => {
           `${process.env.REACT_APP_BACKEND_URL}/todolists/user/${userId}`
         );
         setTodoLists(responseData.todoLists);
+        console.log(responseData)
       } catch (err) {}
     };
     getData();
@@ -44,6 +45,7 @@ const UserTodoLists = () => {
         items={todoLists}
         onDelete={deleteHandler}
         setIsDeleteMode={setIsDeleteMode}
+        userId={userId}
       />
       ;
       {todoLists.length !== 0 && (
