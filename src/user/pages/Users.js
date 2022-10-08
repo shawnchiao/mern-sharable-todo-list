@@ -8,6 +8,7 @@ import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 const Users = () => {
   const { error, isLoading, sendRequest, clearError } = useHttpClient();
   const [loadedUsers, setloadedUsers] = useState();
+  const [listInfoForTodo, setlistInfoForTodo] = useState();
 
   useEffect(() => {
     const obtainUserData = async () => {
@@ -16,6 +17,8 @@ const Users = () => {
           `${process.env.REACT_APP_BACKEND_URL}/users`
         );
         setloadedUsers(responseData.users);
+        setlistInfoForTodo(responseData.listInfo);
+        console.log(responseData)
       } catch (err) { }
     };
     obtainUserData();
@@ -24,7 +27,7 @@ const Users = () => {
     <>
       <ErrorModal error={error} onClear={clearError} />
       {isLoading && <LoadingSpinner asOverlay />}
-      {!isLoading && loadedUsers && <UsersList items={loadedUsers} />}
+      {!isLoading && loadedUsers && <UsersList items={loadedUsers} listInfoForTodo={listInfoForTodo} />}
 
     </>
   )

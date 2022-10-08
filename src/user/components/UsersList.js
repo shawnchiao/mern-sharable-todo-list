@@ -24,6 +24,7 @@ const UsersList = props => {
           image={user.image}
           name={user.name}
           todoListCount={user.todoLists.length}
+          listInfoForTodo={props.listInfoForTodo}
         />
       ))}
     </ul>
