@@ -7,21 +7,30 @@ import { AuthContext } from '../../shared/context/authContext';
 
 const TodoListList = props => {
   const auth = useContext(AuthContext);
-  
-  if (props.items.length === 0 && auth.userId === props.userId ) {
+  let { items, userId, isDeleteMode, onDelete, setIsDeleteMode } = props;
+
+ 
+
+
+  if (auth.userId === userId && items.length === 0) {
     return (
       <div className="place-list center">
-        <Card>
-          <h2>No to-do list found. Maybe create one?</h2>
-          <Button to="/todoList/new">Share to-do list</Button>
+        <Card style={{ margin: "1.5vh" }}>
+          <h2>No list found. Maybe create one?</h2>
+          <Button to="/todoList/new">Create A List</Button>
         </Card>
       </div>
     );
-  } else if (props.items.length === 0 && auth.userId !== props.userId ) {
+  } 
+  if (auth.userId !== userId) {
+    items = items.filter((item) =>  item.setting.isPublic === true )
+  }
+  
+ if (items.length === 0) {
     return (
       <div className="place-list center"  >
-        <Card>
-          <h2>No list created by this user</h2>
+        <Card style={{ margin: "1.5vh" }}>
+          <h2>No list shared by this user</h2>
 
         </Card>
       </div>
@@ -30,16 +39,16 @@ const TodoListList = props => {
 
   return (
     <ul className="users-list" style={{ minHeight: '76vh', alignContent: "flex-start" }}>
-      {props.items.map(todoList => (
+      {items.map(todoList => (
         <TodoListItem
           key={todoList.id}
           id={todoList.id}
           title={todoList.title}
           creatorId={todoList.creator}
           type={todoList.type}
-          isDeleteMode={props.isDeleteMode}
-          onDelete={props.onDelete}
-          setIsDeleteMode={props.setIsDeleteMode}
+          isDeleteMode={isDeleteMode}
+          onDelete={onDelete}
+          setIsDeleteMode={setIsDeleteMode}
         />
       ))}
 

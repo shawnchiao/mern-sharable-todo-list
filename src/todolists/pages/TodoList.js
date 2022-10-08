@@ -23,6 +23,7 @@ import "./TodoList.css";
 function TodoList() {
   const { error, isLoading, sendRequest, clearError } = useHttpClient();
   const [inputText, setInputText] = useState("");
+  const [creator, setCreator] = useState("");
   const auth = useContext(AuthContext);
   const [state, dispatch] = useReducer(
     reducer,
@@ -46,7 +47,8 @@ function TodoList() {
         );
       } catch (err) { }
       dispatch({ type: "setState", payload: responseData.todoList });
-      console.log(responseData.todoList);
+      setCreator(responseData.todoList.creator);
+      console.log(responseData);
     };
     getData();
   }, [sendRequest, todoListId]);
@@ -182,7 +184,7 @@ return (
         </div>
       </div>
     </div>
-    <SpeedDial dispatch={dispatch} setting={state.setting} handleSave={handleSave}/>
+    <SpeedDial dispatch={dispatch} setting={state.setting} handleSave={handleSave} creator={creator}/>
   </>
 );
 }

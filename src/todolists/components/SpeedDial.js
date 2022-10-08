@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useContext } from "react";
 import Box from "@mui/material/Box";
 import Backdrop from "@mui/material/Backdrop";
 import SpeedDial from "@mui/material/SpeedDial";
@@ -12,15 +12,17 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
 import WarningDialog from "./WarningDialog";
+import { AuthContext } from "../../shared/context/authContext";
 
 
 
 
 export default function SpeedDialTooltipOpen(props) {
-  const [open, setOpen] = React.useState(false);
-  const [settingOpen, setSettingOpen] = React.useState(false);
-  const [ openWarning, setOpenWarning ] = React.useState(false);
-  const {setting, dispatch, handleSave } = props;
+  const auth = useContext(AuthContext);
+  const [open, setOpen] = useState(false);
+  const [settingOpen, setSettingOpen] = useState(false);
+  const [openWarning, setOpenWarning] = useState(false);
+  const { setting, dispatch, handleSave } = props;
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
@@ -31,8 +33,9 @@ export default function SpeedDialTooltipOpen(props) {
     setOpen((p) => !p);
     setSettingOpen(false);
   };
+  // auth.userId = the one sing in
 
-  const actions = [
+  let actions = [
     {
       icon: <SaveIcon />,
       name: "Save",
@@ -60,11 +63,32 @@ export default function SpeedDialTooltipOpen(props) {
       },
     },
   ];
+  if (auth.id !== props.creator) {
+    actions = [
+      {
+        icon: <SaveIcon />,
+        name: "Save",
+        handleClick: () => {
+          console.log("save clicked");
+          handleSave();
+        },
+      },
+      {
+        icon: <RestartAltIcon />,
+        name: "Empty",
+        handleClick: () => {
+          console.log("empty clicked");
+          setOpenWarning(true);
+        },
+      },
 
-  console.log(settingOpen);
+    ];
+  }
+
+
   return (
     <>
-       
+
       <div >
         <Backdrop open={open} onClick={handleClose} />
         <SpeedDial
@@ -87,12 +111,12 @@ export default function SpeedDialTooltipOpen(props) {
           onMouseEnter={handleOpen}
           open={open}
           FabProps={{
-                sx: {
-                 right: settingOpen && "40px"
-                },
-              }}
+            sx: {
+              right: settingOpen && "40px"
+            },
+          }}
         >
-         
+
           {actions.map((action) => (
             <SpeedDialAction
               key={action.name}
@@ -153,19 +177,19 @@ export default function SpeedDialTooltipOpen(props) {
               />
             </FormGroup>
           </Box>
-       
+
         </SpeedDial>
         <WarningDialog
-        title="Are you sure you want to empty it?"
-        description=""
-        action="EMPTY"
-        openWarning={openWarning}
-        setOpenWarning={setOpenWarning}
-        deleteHandler={()=>{
-          dispatch({type:"empty"});
-          setOpenWarning(false);
-        }}
-      />
+          title="Are you sure you want to empty it?"
+          description=""
+          action="EMPTY"
+          openWarning={openWarning}
+          setOpenWarning={setOpenWarning}
+          deleteHandler={() => {
+            dispatch({ type: "empty" });
+            setOpenWarning(false);
+          }}
+        />
       </div>
     </>
   );

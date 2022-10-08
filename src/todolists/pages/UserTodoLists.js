@@ -8,11 +8,13 @@ import useHttpClient from "../../shared/hooks/httpHook";
 import TodoListList from "../components/TodoListList";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
+import { AuthContext } from "../../shared/context/authContext";
 
 const UserTodoLists = () => {
   const { error, isLoading, sendRequest, clearError } = useHttpClient();
   const [todoLists, setTodoLists] = useState([]);
   const [isDeleteMode, setIsDeleteMode] = useState(false);
+
 
   const userId = useParams().userId;
 
@@ -30,12 +32,12 @@ const UserTodoLists = () => {
           `${process.env.REACT_APP_BACKEND_URL}/todolists/user/${userId}`
         );
         setTodoLists(responseData.todoLists);
-        console.log(responseData)
+        console.log('useefect')
       } catch (err) {}
     };
     getData();
   }, [sendRequest, userId]);
-
+ console.log(todoLists);
   return (
     <>
       <ErrorModal error={error} onClear={clearError} />
