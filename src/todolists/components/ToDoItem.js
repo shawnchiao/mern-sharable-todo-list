@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { BsBookmark, BsBookmarkStarFill } from "react-icons/bs";
 import {
   MdOutlineCheckBoxOutlineBlank,
@@ -10,17 +10,11 @@ import audio from "./clickSound.wav";
 import CheckBox from "./CheckBox";
 import IconButton from "./IconButton";
 import CheckBoxRoundedIcon from "@mui/icons-material/CheckBoxRounded";
+import { AuthContext } from "../../shared/context/authContext";
 import "./todoItem.css";
 
 function ToDoItem(props) {
-  const [clicked, setClicked] = React.useState(false);
-
-  function cross() {
-    setClicked((prevValue) => {
-      return !prevValue;
-    });
-  }
-
+  const auth = useContext(AuthContext)
   function playSound() {
     const sound = new Audio(audio);
     sound.play();
@@ -33,6 +27,7 @@ function ToDoItem(props) {
   return (
     <div className="todoItem">
       <CheckBox
+        disabled={!props.isEditMode && props.creator !== auth.userId}
         onChange={(e) =>
           props.dispatch({
             type: "setTodo",
@@ -45,10 +40,11 @@ function ToDoItem(props) {
         <BsBookmarkStarFill size="20px" className="checked" />
       </CheckBox>
       <CheckBox
+      disabled={!props.isEditMode && props.creator !== auth.userId}
         className="spaceItemContent"
         onClick={() => {
-          !clicked && playSound();
-          cross();
+          !props.isChecked && playSound();
+
         }}
         onChange={(e) =>
           props.dispatch({
@@ -65,14 +61,16 @@ function ToDoItem(props) {
           {props.text}
         </li>
       </CheckBox>
+      {(props.isEditMode || props.creator === auth.userId) && (
+        <IconButton
+          onClick={() =>
+            props.dispatch({ type: "deleteItem", payload: props.id })
+          }
+        >
+          <AiFillDelete size="1.2rem" />
+        </IconButton>
+      )}
 
-      <IconButton
-        onClick={() =>
-          props.dispatch({ type: "deleteItem", payload: props.id })
-        }
-      >
-        <AiFillDelete size="1.2rem" />
-      </IconButton>
       <div style={{ clear: "both" }}></div>
     </div>
   );

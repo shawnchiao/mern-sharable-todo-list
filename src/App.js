@@ -35,6 +35,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Users />} />
         <Route path="/:userId/todoLists" element={<UserTodoLists />} />
+        
         <Route path="/auth" element={<Auth />} />
         <Route path="*" element={<Navigate to="/auth" />} />
       </Routes>

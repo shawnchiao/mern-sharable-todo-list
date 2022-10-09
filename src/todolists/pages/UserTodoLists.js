@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import Fab from "@mui/material/Fab";
 import EditIcon from "@mui/icons-material/Edit";
@@ -14,6 +14,7 @@ const UserTodoLists = () => {
   const { error, isLoading, sendRequest, clearError } = useHttpClient();
   const [todoLists, setTodoLists] = useState([]);
   const [isDeleteMode, setIsDeleteMode] = useState(false);
+  const auth = useContext(AuthContext);
 
 
   const userId = useParams().userId;
@@ -37,7 +38,7 @@ const UserTodoLists = () => {
     };
     getData();
   }, [sendRequest, userId]);
- console.log(todoLists);
+
   return (
     <>
       <ErrorModal error={error} onClear={clearError} />
@@ -50,7 +51,8 @@ const UserTodoLists = () => {
         userId={userId}
       />
       ;
-      {todoLists.length !== 0 && (
+       
+      {(auth.userId === userId  && todoLists.length !== 0) && (
         <Fab
           color="default"
           aria-label="edit"

@@ -23,11 +23,12 @@ import "./TodoList.css";
 function TodoList() {
   const { error, isLoading, sendRequest, clearError } = useHttpClient();
   const [inputText, setInputText] = useState("");
-  const [creator, setCreator] = useState("");
+  const [isEditMode, setIsEditMode] = useState();
   const auth = useContext(AuthContext);
   const [state, dispatch] = useReducer(
     reducer,
     [
+      "",
       "",
       "",
       { isPublic: false, isEditable: false },
@@ -45,16 +46,22 @@ function TodoList() {
         responseData = await sendRequest(
           `${process.env.REACT_APP_BACKEND_URL}/todolists/${todoListId}`
         );
-      } catch (err) { }
+      } catch (err) {}
       dispatch({ type: "setState", payload: responseData.todoList });
-      setCreator(responseData.todoList.creator);
+      setIsEditMode(responseData.todoList.setting.isEditable)
       console.log(responseData);
     };
     getData();
   }, [sendRequest, todoListId]);
 
   function init(initArray) {
-    return { title: initArray[0], type: initArray[1], setting: initArray[2], todos: initArray[3] };
+    return {
+      title: initArray[0],
+      type: initArray[1],
+      creator: initArray[2],
+      setting: initArray[3],
+      todos: initArray[4],
+    };
   }
 
   function reducer(state, action) {
@@ -98,7 +105,13 @@ function TodoList() {
         return { ...state, setting: { ...state.setting, ...action.payload } };
 
       case "setState":
-        return { title: action.payload.title, type: action.payload.type, setting: action.payload.setting, todos: action.payload.todos };
+        return {
+          title: action.payload.title,
+          type: action.payload.type,
+          creator: action.payload.creator,
+          setting: action.payload.setting,
+          todos: action.payload.todos,
+        };
       case "empty":
         setInputText("");
         return { ...state, todos: [] };
@@ -109,11 +122,14 @@ function TodoList() {
 
   const handleTitle = () => {
     let title = state.title;
-    let titleArray = title.split(' ');
+    let titleArray = title.split(" ");
     if (title === "Everyday") {
       return "To-Do List";
     }
-    if (titleArray[titleArray.length - 1] === "list" || titleArray[titleArray.length - 1] === "List") {
+    if (
+      titleArray[titleArray.length - 1] === "list" ||
+      titleArray[titleArray.length - 1] === "List"
+    ) {
       return title;
     }
     return `${title}  List`;
@@ -134,59 +150,75 @@ function TodoList() {
     try {
       await sendRequest(
         `${process.env.REACT_APP_BACKEND_URL}/todoLists/${todoListId}`,
-        'PATCH',
+        "PATCH",
         JSON.stringify({
           todos: state.todos,
-          setting: state.setting
+          setting: state.setting,
         }),
         {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + auth.token
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + auth.token,
         }
       );
-      console.log('saved!');
-    } catch(err) { console.log(err)};
-};
-
-
-
-console.log(state);
-return (
-  <>
-    <ErrorModal error={error} onClear={clearError} />
-    {isLoading && <LoadingSpinner asOverlay />}
-    <div className="container">
-      <div className="todoList">
-        <div className={`heading ${state.type === "Work" ? 'workType' : ''}  ${state.type === "Shopping" ? 'shoppingType' : ''}`}>
-          <h1>{handleTitle()}</h1>
-        </div>
-        <div className={`form ${state.type === "Work" ? 'workType' : ''}`}>
-          <form onSubmit={addItem}>
-            <input onChange={handleChange} type="text" value={inputText} />
-            <button type="submit">
-              <span>Add</span>
-            </button>
-          </form>
-        </div>
-        <div>
-          <ul>
-            {state.todos.map((eachItem, index) => (
-              <ToDoItem
-                key={index}
-                id={index}
-                text={eachItem.content}
-                dispatch={dispatch}
-                isImportant={eachItem.isImportant}
-                isChecked={eachItem.isChecked}
-              />
-            ))}
-          </ul>
+      console.log("saved!");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+ 
+  console.log(state);
+  return (
+    <>
+      <ErrorModal error={error} onClear={clearError} />
+      {isLoading && <LoadingSpinner asOverlay />}
+      <div className="container">
+        <div className="todoList">
+          <div
+            className={`heading ${state.type === "Work" ? "workType" : ""}  ${
+              state.type === "Shopping" ? "shoppingType" : ""
+            }`}
+          >
+            <h1>{handleTitle()}</h1>
+          </div>
+          {(isEditMode || auth.userId === state.creator) && (
+            <div className={`form ${state.type === "Work" ? "workType" : ""}`}>
+            <form onSubmit={addItem}>
+              <input onChange={handleChange} type="text" value={inputText} />
+              <button type="submit">
+                <span>Add</span>
+              </button>
+            </form>
+          </div>
+          )}
+          
+          <div>
+            <ul>
+              {state.todos.map((eachItem, index) => (
+                <ToDoItem
+                  key={index}
+                  id={index}
+                  text={eachItem.content}
+                  dispatch={dispatch}
+                  isImportant={eachItem.isImportant}
+                  isChecked={eachItem.isChecked}
+                  isEditMode={isEditMode}
+                  creator={state.creator}
+                />
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
-    </div>
-    <SpeedDial dispatch={dispatch} setting={state.setting} handleSave={handleSave} creator={creator}/>
-  </>
-);
+      {(auth.userId === state.creator || state.setting.isEditable) && (
+        <SpeedDial
+          dispatch={dispatch}
+          setting={state.setting}
+          handleSave={handleSave}
+          creator={state.creator}
+        />
+      )}
+    </>
+  );
 }
 
 export default TodoList;

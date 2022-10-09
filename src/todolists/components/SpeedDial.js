@@ -63,7 +63,7 @@ export default function SpeedDialTooltipOpen(props) {
       },
     },
   ];
-  if (auth.id !== props.creator) {
+  if (auth.userId !== props.creator) {
     actions = [
       {
         icon: <SaveIcon />,
@@ -84,7 +84,7 @@ export default function SpeedDialTooltipOpen(props) {
 
     ];
   }
-
+  
 
   return (
     <>

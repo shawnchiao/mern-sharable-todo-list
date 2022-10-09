@@ -12,7 +12,7 @@ const UserItem = props => {
   let count;
   let arrayOfLists;
   if (auth.userId !== props.id) {
-    arrayOfLists = props.listInfoForTodo.filter(l => l.creator === props.id && l.setting.isPublic);
+    arrayOfLists = props.listInfoForTodo.filter(list => list.creator === props.id && list.setting.isPublic);
     count = arrayOfLists.length; 
   } else {
     count = props.todoListCount;
