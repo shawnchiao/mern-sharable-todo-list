@@ -94,7 +94,7 @@ export default function SpeedDialTooltipOpen(props) {
         <SpeedDial
           ariaLabel="SpeedDial tooltip example"
           sx={[
-            { position: "fixed", right: "3vw", bottom: "10%" },
+            { position: "fixed", right: "3vw", bottom: "3vh" },
             {
               "& .MuiFab-primary": {
                 backgroundColor: "#ffc107",
