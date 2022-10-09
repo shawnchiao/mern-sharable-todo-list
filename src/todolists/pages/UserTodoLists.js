@@ -58,7 +58,7 @@ const UserTodoLists = () => {
           aria-label="edit"
           onClick={() => setIsDeleteMode((prev) => !prev)}
           style={{
-            position: "fixed", marginLeft: "85%", bottom: "10%" 
+            position: "fixed", right: "3vw", bottom: "10%" 
           }}
         >
           {isDeleteMode ? <EditIcon /> : <DeleteIcon />}

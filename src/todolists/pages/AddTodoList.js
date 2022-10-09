@@ -155,16 +155,16 @@ export default function SimpleDialog(props) {
               }}
             />
           </div>
-          <Stack direction="column" spacing={1.5}>
+          <Stack direction="column" spacing={1.5} style={{alignContent:"center", alignItems:"center"}}>
             <Divider />
             <CustomSwitch
-              style={{margin: "auto auto 10px 29%",width: "240px" }}
+              style={{margin: "auto auto auto 5%",width: "240px" }}
               label={state.setting.isPublic ? "Allow other users to view" : "Only you can view "}
               onChange={(v) => dispatch({ type: "setIsPublic", payload: v })}
               checked={state.setting.isPublic}
             />
             <CustomSwitch
-              style={{margin: "auto auto 10px 29%",width: "240px" }}
+              style={{margin: "auto auto auto 5%",width: "240px" }}
               label={state.setting.isEditable ? "Allow other users to edit" : "Only you can edit "}
               onChange={(v) => dispatch({ type: "setIsEditable", payload: v })}
               checked={state.setting.isEditable}
@@ -173,7 +173,7 @@ export default function SimpleDialog(props) {
               type="submit"
               variant="contained"
               endIcon={<SendIcon />}
-              style={{ width: "14.5rem", margin: "1rem auto " }}
+              style={{ width: "14.5rem", margin: "1rem auto ", left:"6px" }}
               disabled={buttonHandler()}
               size="medium"
             >
