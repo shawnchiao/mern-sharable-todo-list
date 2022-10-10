@@ -69,6 +69,7 @@ export default function SpeedDialTooltipOpen(props) {
       handleClick: () => {
         console.log("save clicked");
         handleSave();
+        setOpen(false);
       },
     },
     {
@@ -77,6 +78,7 @@ export default function SpeedDialTooltipOpen(props) {
       handleClick: () => {
         console.log("empty clicked");
         setOpenWarning(true);
+        setOpen(false);
       },
     },
 
@@ -122,7 +124,7 @@ export default function SpeedDialTooltipOpen(props) {
         <SpeedDial
           ariaLabel="SpeedDial tooltip example"
           sx={[
-            { position: "fixed", right: "3vw", bottom: "3vh" },
+            { position: "fixed", right: "3vw", bottom: "3vh", },
             {
               "& .MuiFab-primary": {
                 backgroundColor: "#ffc107",
@@ -142,7 +144,7 @@ export default function SpeedDialTooltipOpen(props) {
           open={open}
           FabProps={{
             sx: {
-              right: settingOpen && "40px"
+              left: settingOpen && "40px"
             },
           }}
         >
@@ -155,6 +157,7 @@ export default function SpeedDialTooltipOpen(props) {
               tooltipOpen
               onClick={action.handleClick}
               style={{
+                left: settingOpen && "81px",
                 display:
                   settingOpen && action.name === "Setting" ? "none" : "inherit",
               }}
@@ -162,6 +165,8 @@ export default function SpeedDialTooltipOpen(props) {
                 sx: {
                   "&:hover": {
                     bgcolor: "#ffebee",
+                
+                   
                   },
                 },
               }}
@@ -174,7 +179,6 @@ export default function SpeedDialTooltipOpen(props) {
               transform: "translateZ(0px)",
               bgcolor: "#fff",
               position: "relative",
-              right: "90px",
               bottom: "20px",
             }}
             style={{ display: !settingOpen ? "none" : "table" }}
