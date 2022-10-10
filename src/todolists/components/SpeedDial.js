@@ -24,16 +24,43 @@ export default function SpeedDialTooltipOpen(props) {
   const [openWarning, setOpenWarning] = useState(false);
   const { setting, dispatch, handleSave } = props;
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => {
+  // const handleOpen = () => setOpen(true);
+  const handleCloseBackdrop = () => {
     setOpen(false);
     setSettingOpen(false);
   };
-  const handleClick = () => {
-    setOpen((p) => !p);
+  // const handleClick = () => {
+  //   setOpen((p) => !p);
+  //   setSettingOpen(false);
+  // };
+ const handleClose = (event, reason) => {
+  if (reason === "toggle") { 
+    setOpen(false);
     setSettingOpen(false);
+  } else if ( reason === "escapeKeyDown") {
+    setOpen(false);
+    setSettingOpen(false);
+  } else if ( reason === "mouseLeave") {
+
+  } else if ( reason === "blur") {
+
+  }
+ }
+
+  const handleOpen = (event, reason) => {
+    if (reason === "toggle") { 
+      setOpen(true);
+      setSettingOpen(false);
+    } else if ( reason === "mouseEnter") {
+      setOpen(true);
+      setSettingOpen(false);
+    } else if ( reason === "focus") {
+      setOpen(true);
+      setSettingOpen(false);
+    }
   };
-  // auth.userId = the one sing in
+
+
 
   let actions = [
     {
@@ -63,6 +90,7 @@ export default function SpeedDialTooltipOpen(props) {
       },
     },
   ];
+
   if (auth.userId !== props.creator) {
     actions = [
       {
@@ -90,7 +118,7 @@ export default function SpeedDialTooltipOpen(props) {
     <>
 
       <div >
-        <Backdrop open={open} onClick={handleClose} />
+        <Backdrop open={open} onClick={handleCloseBackdrop} />
         <SpeedDial
           ariaLabel="SpeedDial tooltip example"
           sx={[
@@ -107,8 +135,10 @@ export default function SpeedDialTooltipOpen(props) {
             },
           ]}
           icon={<SpeedDialIcon />}
-          onClick={handleClick}
-          onMouseEnter={handleOpen}
+          // onClick={handleClick}
+          // onMouseEnter={handleOpen}
+          onOpen={handleOpen}
+          onClose={handleClose}
           open={open}
           FabProps={{
             sx: {
