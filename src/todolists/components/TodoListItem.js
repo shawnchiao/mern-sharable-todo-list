@@ -59,7 +59,6 @@ const TodoListItem = (props) => {
       {isLoading && <LoadingSpinner asOverlay />}
       <WarningDialog
         title="Are you sure you want to delete it?"
-      
         action="DELETE"
         openWarning={openWarning}
         setOpenWarning={setOpenWarning}
