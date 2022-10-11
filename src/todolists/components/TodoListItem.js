@@ -59,7 +59,7 @@ const TodoListItem = (props) => {
       {isLoading && <LoadingSpinner asOverlay />}
       <WarningDialog
         title="Are you sure you want to delete it?"
-        description="Please note the deleted item cannot be undone"
+      
         action="DELETE"
         openWarning={openWarning}
         setOpenWarning={setOpenWarning}

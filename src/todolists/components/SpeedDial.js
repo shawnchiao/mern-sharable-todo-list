@@ -157,7 +157,7 @@ export default function SpeedDialTooltipOpen(props) {
               tooltipOpen
               onClick={action.handleClick}
               style={{
-                left: settingOpen && "81px",
+                left: settingOpen && "80px",
                 display:
                   settingOpen && action.name === "Setting" ? "none" : "inherit",
               }}

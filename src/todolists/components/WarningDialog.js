@@ -6,7 +6,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { Stack } from "@mui/material";
+
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 
 export default function WarningDialog(props) {
@@ -41,8 +41,8 @@ export default function WarningDialog(props) {
           {description}
         </DialogContentText>
       </DialogContent>
-      <DialogActions>
-        <Stack direction="row" spacing={28}>
+      <DialogActions style={{justifyContent:"space-between"}}>
+   
           <Button
             sx={{ fontSize: 18 }}
             style={{ color: "grey" }}
@@ -58,7 +58,7 @@ export default function WarningDialog(props) {
           >
             {action}
           </Button>
-        </Stack>
+     
       </DialogActions>
     </Dialog>
   );
