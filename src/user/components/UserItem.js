@@ -17,8 +17,6 @@ const UserItem = props => {
   } else {
     count = props.todoListCount;
   }
-  console.log(props.listInfoForTodo)
-  console.log(count)
   return (
     <li className="user-item">
       <Card className="user-item__content">

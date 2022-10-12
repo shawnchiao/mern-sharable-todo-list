@@ -109,11 +109,10 @@ export default function SimpleDialog(props) {
       );
       navigate("/");
     } catch (err) {
-      console.log(err);
     }
   };
 
-  console.log(JSON.stringify(state));
+  // console.log(JSON.stringify(state));
   return (
     <>
       <ErrorModal error={error} onClear={clearError} />

@@ -5,7 +5,7 @@ import SpeedDial from "@mui/material/SpeedDial";
 import SpeedDialIcon from "@mui/material/SpeedDialIcon";
 import SpeedDialAction from "@mui/material/SpeedDialAction";
 import SaveIcon from "@mui/icons-material/Save";
-import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import SettingsIcon from "@mui/icons-material/Settings";
 import Switch from "@mui/material/Switch";
 import FormGroup from "@mui/material/FormGroup";
@@ -13,9 +13,6 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 
 import WarningDialog from "./WarningDialog";
 import { AuthContext } from "../../shared/context/authContext";
-
-
-
 
 export default function SpeedDialTooltipOpen(props) {
   const auth = useContext(AuthContext);
@@ -33,41 +30,36 @@ export default function SpeedDialTooltipOpen(props) {
   //   setOpen((p) => !p);
   //   setSettingOpen(false);
   // };
- const handleClose = (event, reason) => {
-  if (reason === "toggle") { 
-    setOpen(false);
-    setSettingOpen(false);
-  } else if ( reason === "escapeKeyDown") {
-    setOpen(false);
-    setSettingOpen(false);
-  } else if ( reason === "mouseLeave") {
-
-  } else if ( reason === "blur") {
-
-  }
- }
+  const handleClose = (event, reason) => {
+    if (reason === "toggle") {
+      setOpen(false);
+      setSettingOpen(false);
+    } else if (reason === "escapeKeyDown") {
+      setOpen(false);
+      setSettingOpen(false);
+    } else if (reason === "mouseLeave") {
+    } else if (reason === "blur") {
+    }
+  };
 
   const handleOpen = (event, reason) => {
-    if (reason === "toggle") { 
+    if (reason === "toggle") {
       setOpen(true);
       setSettingOpen(false);
-    } else if ( reason === "mouseEnter") {
+    } else if (reason === "mouseEnter") {
       setOpen(true);
       setSettingOpen(false);
-    } else if ( reason === "focus") {
+    } else if (reason === "focus") {
       setOpen(true);
       setSettingOpen(false);
     }
   };
-
-
 
   let actions = [
     {
       icon: <SaveIcon />,
       name: "Save",
       handleClick: () => {
-        console.log("save clicked");
         handleSave();
         setOpen(false);
       },
@@ -76,7 +68,6 @@ export default function SpeedDialTooltipOpen(props) {
       icon: <RestartAltIcon />,
       name: "Empty",
       handleClick: () => {
-        console.log("empty clicked");
         setOpenWarning(true);
         setOpen(false);
       },
@@ -87,7 +78,7 @@ export default function SpeedDialTooltipOpen(props) {
       name: "Setting",
       handleClick: (e) => {
         e.stopPropagation();
-        console.log("setting clicked");
+
         setSettingOpen(true);
       },
     },
@@ -99,7 +90,7 @@ export default function SpeedDialTooltipOpen(props) {
         icon: <SaveIcon />,
         name: "Save",
         handleClick: () => {
-          console.log("save clicked");
+      
           handleSave();
         },
       },
@@ -107,24 +98,21 @@ export default function SpeedDialTooltipOpen(props) {
         icon: <RestartAltIcon />,
         name: "Empty",
         handleClick: () => {
-          console.log("empty clicked");
+  
           setOpenWarning(true);
         },
       },
-
     ];
   }
-  
 
   return (
     <>
-
-      <div >
+      <div>
         <Backdrop open={open} onClick={handleCloseBackdrop} />
         <SpeedDial
           ariaLabel="SpeedDial tooltip example"
           sx={[
-            { position: "fixed", right: "3vw", bottom: "3vh", },
+            { position: "fixed", right: "3vw", bottom: "3vh" },
             {
               "& .MuiFab-primary": {
                 backgroundColor: "#ffc107",
@@ -144,11 +132,10 @@ export default function SpeedDialTooltipOpen(props) {
           open={open}
           FabProps={{
             sx: {
-              left: settingOpen && "40px"
+              left: settingOpen && "40px",
             },
           }}
         >
-
           {actions.map((action) => (
             <SpeedDialAction
               key={action.name}
@@ -165,8 +152,6 @@ export default function SpeedDialTooltipOpen(props) {
                 sx: {
                   "&:hover": {
                     bgcolor: "#ffebee",
-                
-                   
                   },
                 },
               }}
@@ -211,7 +196,6 @@ export default function SpeedDialTooltipOpen(props) {
               />
             </FormGroup>
           </Box>
-
         </SpeedDial>
         <WarningDialog
           title="Are you sure you want to empty it?"

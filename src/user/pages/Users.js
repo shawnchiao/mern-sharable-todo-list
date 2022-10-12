@@ -18,7 +18,7 @@ const Users = () => {
         );
         setloadedUsers(responseData.users);
         setlistInfoForTodo(responseData.listInfo);
-        console.log(responseData)
+        // console.log(responseData)
       } catch (err) { }
     };
     obtainUserData();

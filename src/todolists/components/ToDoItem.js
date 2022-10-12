@@ -20,10 +20,6 @@ function ToDoItem(props) {
     sound.play();
   }
 
-  // function space() {
-  //   props.text.length;
-  // }
-  //  console.log(props.id)
   return (
     <div className="todoItem">
       <CheckBox

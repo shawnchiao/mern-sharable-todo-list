@@ -48,8 +48,8 @@ function TodoList() {
         );
       } catch (err) {}
       dispatch({ type: "setState", payload: responseData.todoList });
-      setIsEditMode(responseData.todoList.setting.isEditable)
-      console.log(responseData);
+      setIsEditMode(responseData.todoList.setting.isEditable);
+      // console.log(responseData);
     };
     getData();
   }, [sendRequest, todoListId]);
@@ -160,12 +160,9 @@ function TodoList() {
           Authorization: "Bearer " + auth.token,
         }
       );
-      console.log("saved!");
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
- 
+
   console.log(state);
   return (
     <>
@@ -182,15 +179,15 @@ function TodoList() {
           </div>
           {(isEditMode || auth.userId === state.creator) && (
             <div className={`form ${state.type === "Work" ? "workType" : ""}`}>
-            <form onSubmit={addItem}>
-              <input onChange={handleChange} type="text" value={inputText} />
-              <button type="submit">
-                <span>Add</span>
-              </button>
-            </form>
-          </div>
+              <form onSubmit={addItem}>
+                <input onChange={handleChange} type="text" value={inputText} />
+                <button type="submit">
+                  <span>Add</span>
+                </button>
+              </form>
+            </div>
           )}
-          
+
           <div>
             <ul>
               {state.todos.map((eachItem, index) => (

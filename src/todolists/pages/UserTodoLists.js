@@ -33,7 +33,6 @@ const UserTodoLists = () => {
           `${process.env.REACT_APP_BACKEND_URL}/todolists/user/${userId}`
         );
         setTodoLists(responseData.todoLists);
-        console.log('useefect')
       } catch (err) {}
     };
     getData();
