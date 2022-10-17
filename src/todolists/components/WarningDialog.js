@@ -46,7 +46,11 @@ export default function WarningDialog(props) {
           <Button
             sx={{ fontSize: 18 }}
             style={{ color: "grey" }}
-            onClick={() => setOpenWarning(false)}
+            onClick={() => {
+              setOpenWarning(false);
+              props.setOpenForSpeed(false);
+              props.setSettingOpen(false);
+              }}
           >
             CANCEL
           </Button>

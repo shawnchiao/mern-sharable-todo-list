@@ -163,7 +163,7 @@ function TodoList() {
     } catch (err) {}
   };
 
-  console.log(state);
+
   return (
     <>
       <ErrorModal error={error} onClear={clearError} />

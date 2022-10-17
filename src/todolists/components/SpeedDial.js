@@ -50,8 +50,8 @@ export default function SpeedDialTooltipOpen(props) {
       setOpen(true);
       setSettingOpen(false);
     } else if (reason === "focus") {
-      setOpen(true);
-      setSettingOpen(false);
+      // setOpen(true);
+      // setSettingOpen(false);
     }
   };
 
@@ -62,6 +62,7 @@ export default function SpeedDialTooltipOpen(props) {
       handleClick: () => {
         handleSave();
         setOpen(false);
+        setSettingOpen(false);
       },
     },
     {
@@ -69,7 +70,7 @@ export default function SpeedDialTooltipOpen(props) {
       name: "Empty",
       handleClick: () => {
         setOpenWarning(true);
-        setOpen(false);
+   
       },
     },
 
@@ -90,8 +91,9 @@ export default function SpeedDialTooltipOpen(props) {
         icon: <SaveIcon />,
         name: "Save",
         handleClick: () => {
-      
           handleSave();
+          setOpen(false);
+          setSettingOpen(false);
         },
       },
       {
@@ -202,10 +204,14 @@ export default function SpeedDialTooltipOpen(props) {
           description=""
           action="EMPTY"
           openWarning={openWarning}
+          setOpenForSpeed={setOpen}
+          setSettingOpen={setSettingOpen}
           setOpenWarning={setOpenWarning}
           deleteHandler={() => {
             dispatch({ type: "empty" });
             setOpenWarning(false);
+            setOpen(false);
+            setSettingOpen(false);
           }}
         />
       </div>
