@@ -195,8 +195,8 @@ function TodoList() {
         title="Do you want to save the change?"
         action="save"
         setOpenWarning={setReminder}
-        actionFunction={() => {
-          handleSave();
+        actionFunction={async() => {
+          await handleSave();
           setIsBlock(false);
           setProceed(true);
         }}
