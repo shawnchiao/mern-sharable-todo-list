@@ -185,7 +185,6 @@ function TodoList() {
   return (
     <>
       <WarningDialog
-        // setCancel={setCancel}
         windowFunctionName="Don't save"
         windowFunction={() => {
           setIsBlock(false);

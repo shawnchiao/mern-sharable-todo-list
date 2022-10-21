@@ -17,11 +17,10 @@ export default function WarningDialog(props) {
     description,
     action,
     actionFunction,
-    setCancel,
     setOpenForSpeed,
     setSettingOpen,
     windowFunction,
-    windowFunctionName
+    windowFunctionName,
   } = props;
 
   const handleClose = (event, reason) => {
@@ -30,9 +29,6 @@ export default function WarningDialog(props) {
       setOpenWarning(false);
     }
   };
-
-  
-
 
   return (
     <Dialog
@@ -57,11 +53,10 @@ export default function WarningDialog(props) {
           sx={{ fontSize: 18 }}
           style={{ color: "grey" }}
           onClick={() => {
-         
             // if (setCancel) {
             // setCancel((prev)=>!prev);
             // };
-             
+
             if (setOpenForSpeed) {
               setOpenForSpeed(false);
             }
@@ -69,12 +64,13 @@ export default function WarningDialog(props) {
               setSettingOpen(false);
             }
             if (windowFunction) {
-             windowFunction();
+              windowFunction();
+            } else {
+              setOpenWarning(false);
             }
-            // setOpenWarning(false);
           }}
         >
-          {windowFunctionName || "CANCEL"  }
+          {windowFunctionName || "CANCEL"}
         </Button>
         <Button
           sx={{ fontSize: 18 }}
