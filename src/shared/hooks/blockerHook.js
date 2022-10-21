@@ -1,4 +1,4 @@
-import { useContext, useEffect, useCallback } from 'react';
+import { useContext, useEffect, useCallback, useState, useRef } from 'react';
 import { UNSAFE_NavigationContext as NavigationContext } from 'react-router-dom';
 /**
  * Blocks all navigation attempts. This is useful for preventing the page from
@@ -49,3 +49,31 @@ export function usePrompt( message, when = true ) {
 
     useBlocker( blocker, when );
 }
+
+
+export function useCustomPrompt (currentState, savedState, setReminder ) {
+
+  const [proceed, setProceed] = useState(false);
+  const retry = useRef(() => {});
+  useEffect(() => {
+    proceed && retry.current();
+  }, [proceed]);
+
+  useEffect(() => {
+    
+    if (JSON.stringify(savedState) !== JSON.stringify(currentState)) {
+      setIsBlock(true);
+    } else {
+      setIsBlock(false);
+    }
+  }, [currentState, savedState]);
+
+  const [isBlock, setIsBlock] = useState(false);
+  useBlocker((nextLocation) => {
+    // setWhichEvent(nextLocation)
+    setReminder(true);
+    retry.current = nextLocation.retry;
+  }, isBlock);
+
+  return {setProceed, setIsBlock}
+};

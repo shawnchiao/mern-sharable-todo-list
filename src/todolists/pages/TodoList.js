@@ -1,23 +1,14 @@
-import React, {
-  useState,
-  useReducer,
-  useEffect,
-  useContext,
-  useCallback,
-  useRef,
-} from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useState, useReducer, useEffect, useContext } from "react";
+import { useParams } from "react-router-dom";
 
 import ToDoItem from "../components/ToDoItem";
-
 import useHttpClient from "../../shared/hooks/httpHook";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import SpeedDial from "../components/SpeedDial";
 import WarningDialog from "../components/WarningDialog";
 import { AuthContext } from "../../shared/context/authContext";
-import { useBlocker } from "../../shared/hooks/blockerHook";
-
+import { useCustomPrompt } from "../../shared/hooks/blockerHook";
 import "./TodoList.css";
 
 function TodoList() {
@@ -25,8 +16,6 @@ function TodoList() {
   const [inputText, setInputText] = useState("");
   const [isEditMode, setIsEditMode] = useState();
   const [savedState, setSavedState] = useState();
-  const [currentState, setCurrentState] = useState();
-
   const [reminder, setReminder] = useState(false);
   const auth = useContext(AuthContext);
   const todoListId = useParams().todolistId;
@@ -42,22 +31,20 @@ function TodoList() {
     init
   );
 
-
-
   useEffect(() => {
     const getData = async () => {
       let responseData;
       try {
         responseData = await sendRequest(
           `${process.env.REACT_APP_BACKEND_URL}/todolists/${todoListId}`
-        );
+          );
+          dispatch({ type: "setState", payload: responseData.todoList });
+          setIsEditMode(responseData.todoList.setting.isEditable);
+          setSavedState({
+            setting: responseData.todoList.setting,
+            todos: responseData.todoList.todos,
+          });
       } catch (err) {}
-      dispatch({ type: "setState", payload: responseData.todoList });
-      setIsEditMode(responseData.todoList.setting.isEditable);
-      setSavedState({
-        setting: responseData.todoList.setting,
-        todos: responseData.todoList.todos,
-      });
     };
     getData();
   }, [sendRequest, todoListId]);
@@ -75,10 +62,6 @@ function TodoList() {
   function reducer(state, action) {
     switch (action.type) {
       case "addItem":
-        setCurrentState({
-          setting: state.setting,
-          todos: [...state.todos, action.payload.inputText],
-        });
         return {
           ...state,
           todos: [
@@ -101,7 +84,7 @@ function TodoList() {
         const { index, ...otherPayload } = action.payload;
         //  remove the todo clicked from the state, so that it won't generate extra one
         const theRestTodos = state.todos.filter(
-          (todo) => todo != state.todos[index]
+          (todo) => todo !== state.todos[index]
         );
         // add the clicked todo to it with specified setting
         // an array of objects can't use spread operator like this
@@ -117,10 +100,6 @@ function TodoList() {
         return { ...state, setting: { ...state.setting, ...action.payload } };
 
       case "setState":
-        setCurrentState({
-          setting: action.payload.setting,
-          todos: action.payload.todos,
-        });
         return {
           title: action.payload.title,
           type: action.payload.type,
@@ -180,38 +159,17 @@ function TodoList() {
     setSavedState({ setting: state.setting, todos: state.todos });
   };
 
+  const { setProceed, setIsBlock } = useCustomPrompt(
+    { setting: state.setting, todos: state.todos },
+    savedState,
+    setReminder
+  );
 
-
-
- 
   //   window.onbeforeunload = function () {
 
   //     return  "Are you sure want to LOGOUT the session ?";
   // };
-  const [proceed, setProceed] = useState(false);
-  const retry = useRef(() => {});
-  useEffect(() => {
-    proceed && retry.current();
-  }, [proceed]);
 
-  useEffect(() => {
-    const currentState = { setting: state.setting, todos: state.todos };
-    // console.log(JSON.stringify(savedState) === JSON.stringify(currentState))
-    if (JSON.stringify(savedState) !== JSON.stringify(currentState)) {
-      setIsBlock(true);
-    } else {
-      setIsBlock(false);
-    }
-  }, [state.todos, state.setting, savedState]);
-
-  const [isBlock, setIsBlock] = useState(false);
-  useBlocker((nextLocation) => {
-    // setWhichEvent(nextLocation)
-    setReminder(true);
-    retry.current = nextLocation.retry;
-  }, isBlock);
-
- 
   // useEffect(() => {
 
   //   window.history.pushState(null, null, window.location.pathname);
@@ -223,7 +181,7 @@ function TodoList() {
   //   };
   // }, [state.todos,state.setting, savedState, onBackButtonEvent]);
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   return (
     <>
       <WarningDialog
@@ -231,7 +189,6 @@ function TodoList() {
         windowFunctionName="Don't save"
         windowFunction={() => {
           setIsBlock(false);
-          // navigate(-1);
           setProceed(true);
         }}
         openWarning={reminder}
@@ -242,10 +199,6 @@ function TodoList() {
           handleSave();
           setIsBlock(false);
           setProceed(true);
-          // navigate(-1);
-
-          // setIsBlock(false)
-          // navigate(`/${state.creator}/todoLists`);
         }}
       />
       <ErrorModal error={error} onClear={clearError} />
