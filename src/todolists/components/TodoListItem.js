@@ -62,7 +62,7 @@ const TodoListItem = (props) => {
         action="DELETE"
         openWarning={openWarning}
         setOpenWarning={setOpenWarning}
-        deleteHandler={deleteHandler}
+        actionFunction={deleteHandler}
       />
       <li className={props.isDeleteMode ? "shaking todoListItem" : "user-item"}>
         {props.isDeleteMode && (

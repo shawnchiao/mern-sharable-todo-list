@@ -207,7 +207,7 @@ export default function SpeedDialTooltipOpen(props) {
           setOpenForSpeed={setOpen}
           setSettingOpen={setSettingOpen}
           setOpenWarning={setOpenWarning}
-          deleteHandler={() => {
+          actionFunction={() => {
             dispatch({ type: "empty" });
             setOpenWarning(false);
             setOpen(false);

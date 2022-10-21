@@ -10,16 +10,29 @@ import DialogTitle from "@mui/material/DialogTitle";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 
 export default function WarningDialog(props) {
-  const { openWarning, setOpenWarning, title, description, action, deleteHandler } = props
-
+  const {
+    openWarning,
+    setOpenWarning,
+    title,
+    description,
+    action,
+    actionFunction,
+    setCancel,
+    setOpenForSpeed,
+    setSettingOpen,
+    windowFunction,
+    windowFunctionName
+  } = props;
 
   const handleClose = (event, reason) => {
-    if (reason === "backdropClick") { 
-     
+    if (reason === "backdropClick") {
     } else {
       setOpenWarning(false);
     }
   };
+
+  
+
 
   return (
     <Dialog
@@ -33,36 +46,44 @@ export default function WarningDialog(props) {
         sx={{ fontSize: 50 }}
         style={{ margin: "30px auto 0px" }}
       />
-      <DialogTitle id="alert-dialog-title">
-        {title}
-      </DialogTitle>
+      <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
           {description}
         </DialogContentText>
       </DialogContent>
-      <DialogActions style={{justifyContent:"space-between"}}>
-   
-          <Button
-            sx={{ fontSize: 18 }}
-            style={{ color: "grey" }}
-            onClick={() => {
-              setOpenWarning(false);
-              props.setOpenForSpeed(false);
-              props.setSettingOpen(false);
-              }}
-          >
-            CANCEL
-          </Button>
-          <Button
-            sx={{ fontSize: 18 }}
-            color="error"
-            onClick={deleteHandler}
-            autoFocus
-          >
-            {action}
-          </Button>
-     
+      <DialogActions style={{ justifyContent: "space-between" }}>
+        <Button
+          sx={{ fontSize: 18 }}
+          style={{ color: "grey" }}
+          onClick={() => {
+         
+            // if (setCancel) {
+            // setCancel((prev)=>!prev);
+            // };
+             
+            if (setOpenForSpeed) {
+              setOpenForSpeed(false);
+            }
+            if (setSettingOpen) {
+              setSettingOpen(false);
+            }
+            if (windowFunction) {
+             windowFunction();
+            }
+            // setOpenWarning(false);
+          }}
+        >
+          {windowFunctionName || "CANCEL"  }
+        </Button>
+        <Button
+          sx={{ fontSize: 18 }}
+          color="error"
+          onClick={actionFunction}
+          autoFocus
+        >
+          {action}
+        </Button>
       </DialogActions>
     </Dialog>
   );

@@ -1,22 +1,22 @@
-import React, { useState, useReducer, useEffect, useContext } from "react";
-import { useParams } from "react-router-dom";
-import Button from "@mui/material/Button";
-import FormGroup from "@mui/material/FormGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Switch from "@mui/material/Switch";
-import Stack from "@mui/material/Stack";
-import SaveIcon from "@mui/icons-material/Save";
-import Fab from "@mui/material/Fab";
-import { GrPowerReset } from "react-icons/gr";
+import React, {
+  useState,
+  useReducer,
+  useEffect,
+  useContext,
+  useCallback,
+  useRef,
+} from "react";
+import { useParams, useNavigate } from "react-router-dom";
 
 import ToDoItem from "../components/ToDoItem";
-import IconButton from "../components/IconButton";
+
 import useHttpClient from "../../shared/hooks/httpHook";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import SpeedDial from "../components/SpeedDial";
 import WarningDialog from "../components/WarningDialog";
 import { AuthContext } from "../../shared/context/authContext";
+import { useBlocker } from "../../shared/hooks/blockerHook";
 
 import "./TodoList.css";
 
@@ -24,7 +24,12 @@ function TodoList() {
   const { error, isLoading, sendRequest, clearError } = useHttpClient();
   const [inputText, setInputText] = useState("");
   const [isEditMode, setIsEditMode] = useState();
+  const [savedState, setSavedState] = useState();
+  const [currentState, setCurrentState] = useState();
+
+  const [reminder, setReminder] = useState(false);
   const auth = useContext(AuthContext);
+  const todoListId = useParams().todolistId;
   const [state, dispatch] = useReducer(
     reducer,
     [
@@ -37,7 +42,7 @@ function TodoList() {
     init
   );
 
-  const todoListId = useParams().todolistId;
+
 
   useEffect(() => {
     const getData = async () => {
@@ -49,7 +54,10 @@ function TodoList() {
       } catch (err) {}
       dispatch({ type: "setState", payload: responseData.todoList });
       setIsEditMode(responseData.todoList.setting.isEditable);
-      // console.log(responseData);
+      setSavedState({
+        setting: responseData.todoList.setting,
+        todos: responseData.todoList.todos,
+      });
     };
     getData();
   }, [sendRequest, todoListId]);
@@ -67,6 +75,10 @@ function TodoList() {
   function reducer(state, action) {
     switch (action.type) {
       case "addItem":
+        setCurrentState({
+          setting: state.setting,
+          todos: [...state.todos, action.payload.inputText],
+        });
         return {
           ...state,
           todos: [
@@ -105,6 +117,10 @@ function TodoList() {
         return { ...state, setting: { ...state.setting, ...action.payload } };
 
       case "setState":
+        setCurrentState({
+          setting: action.payload.setting,
+          todos: action.payload.todos,
+        });
         return {
           title: action.payload.title,
           type: action.payload.type,
@@ -161,11 +177,77 @@ function TodoList() {
         }
       );
     } catch (err) {}
+    setSavedState({ setting: state.setting, todos: state.todos });
   };
 
 
+
+
+ 
+  //   window.onbeforeunload = function () {
+
+  //     return  "Are you sure want to LOGOUT the session ?";
+  // };
+  const [proceed, setProceed] = useState(false);
+  const retry = useRef(() => {});
+  useEffect(() => {
+    proceed && retry.current();
+  }, [proceed]);
+
+  useEffect(() => {
+    const currentState = { setting: state.setting, todos: state.todos };
+    // console.log(JSON.stringify(savedState) === JSON.stringify(currentState))
+    if (JSON.stringify(savedState) !== JSON.stringify(currentState)) {
+      setIsBlock(true);
+    } else {
+      setIsBlock(false);
+    }
+  }, [state.todos, state.setting, savedState]);
+
+  const [isBlock, setIsBlock] = useState(false);
+  useBlocker((nextLocation) => {
+    // setWhichEvent(nextLocation)
+    setReminder(true);
+    retry.current = nextLocation.retry;
+  }, isBlock);
+
+ 
+  // useEffect(() => {
+
+  //   window.history.pushState(null, null, window.location.pathname);
+  //   window.addEventListener("popstate", onBackButtonEvent);
+  //   window.addEventListener("beforeunload", reloadPrompt)
+  //   return () => {
+  //     window.removeEventListener("popstate", onBackButtonEvent);
+  //     window.removeEventListener("beforeunload", reloadPrompt)
+  //   };
+  // }, [state.todos,state.setting, savedState, onBackButtonEvent]);
+
+  const navigate = useNavigate();
   return (
     <>
+      <WarningDialog
+        // setCancel={setCancel}
+        windowFunctionName="Don't save"
+        windowFunction={() => {
+          setIsBlock(false);
+          // navigate(-1);
+          setProceed(true);
+        }}
+        openWarning={reminder}
+        title="Do you want to save the change?"
+        action="save"
+        setOpenWarning={setReminder}
+        actionFunction={() => {
+          handleSave();
+          setIsBlock(false);
+          setProceed(true);
+          // navigate(-1);
+
+          // setIsBlock(false)
+          // navigate(`/${state.creator}/todoLists`);
+        }}
+      />
       <ErrorModal error={error} onClear={clearError} />
       {isLoading && <LoadingSpinner asOverlay />}
       <div className="container">

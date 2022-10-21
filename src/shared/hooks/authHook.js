@@ -28,12 +28,16 @@ export const useAuth = () => {
     setTokenExpirationState(null);
     setUserId(null);
     localStorage.removeItem("userData");
+
   }, []);
 
   useEffect(() => {
     if (token && tokenExpirationState) {
       const remainingTime = tokenExpirationState.getTime() - new Date().getTime();
-      logoutTimer = setTimeout(logout, remainingTime);
+      logoutTimer = setTimeout(()=>{
+        logout();
+        window.location.reload();
+      }, remainingTime);
     } else {
       clearTimeout(logoutTimer);
     }
