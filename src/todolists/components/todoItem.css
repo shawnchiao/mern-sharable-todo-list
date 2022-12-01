@@ -2,8 +2,8 @@
   display: flex;
   align-items: baseline ;
   min-height: 2em;
-  white-space: normal !important;
-  overflow-wrap: break-word !important;
+  white-space: normal;
+  overflow-wrap: break-word;
 }
 
 
